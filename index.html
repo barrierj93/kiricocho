@@ -1,0 +1,762 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MAN ON · Revista de fútbol</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Newsreader:ital,opsz,wght@1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --turf:#1D4F2E;      /* césped */
+  --turf-2:#225936;    /* franja de corte */
+  --turf-deep:#153B22;
+  --cal:#FFFFFF;       /* blanco de línea */
+  --mow:#F1F4EE;       /* franja clara */
+  --ink:#000000;
+  --red:#BE1214;       /* rojo del logo */
+  --mute:#59625B;
+  --rule:rgba(0,0,0,.13);
+  --chalk:rgba(255,255,255,.82);
+  --chalk-dim:rgba(255,255,255,.62);
+  --sans:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --serif:"Newsreader",Georgia,"Times New Roman",serif;
+  --max:1320px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--cal);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.5;font-stretch:100%}
+a{color:inherit;text-decoration:none}
+a:hover{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--red);outline-offset:3px}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 32px}
+h1,h2,h3{margin:0;font-weight:800;font-stretch:62%;line-height:.95;letter-spacing:-.005em;text-wrap:balance}
+p{margin:0}
+.skip{position:absolute;left:-999px}.skip:focus{left:16px;top:16px;background:#fff;padding:8px 12px;z-index:10}
+
+/* ---------- Partidos de hoy ---------- */
+.today{background:var(--ink);color:#fff;font-size:14px}
+.today .wrap{display:flex;align-items:center;gap:28px;overflow-x:auto;white-space:nowrap;height:44px;scrollbar-width:none}
+.today .wrap::-webkit-scrollbar{display:none}
+.today strong{font-weight:700;font-stretch:80%;font-size:15px}
+.fx{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.88)}
+.fx time{font-variant-numeric:tabular-nums;color:rgba(255,255,255,.6)}
+.fx .live{color:#fff;font-weight:700;display:flex;align-items:center;gap:6px;font-variant-numeric:tabular-nums}
+.fx .live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--red);box-shadow:0 0 0 3px rgba(190,18,20,.35)}
+
+/* ---------- Cabecera ---------- */
+.masthead{border-bottom:1px solid var(--rule);background:var(--cal);position:sticky;top:0;z-index:5}
+.masthead .wrap{display:flex;align-items:center;gap:40px;height:88px;transition:height .25s}
+.logo img{height:64px;width:auto;display:block;transition:height .25s}
+.masthead.compact .wrap{height:64px}.masthead.compact .logo img{height:46px}
+.masthead.compact{box-shadow:0 1px 0 var(--rule),0 8px 24px -12px rgba(0,0,0,.25)}
+nav ul{list-style:none;margin:0;padding:0;display:flex;gap:26px}
+nav a{font-weight:600;font-size:16px}
+nav a[aria-current]{box-shadow:inset 0 -3px 0 var(--red);padding-bottom:6px;text-decoration:none}
+.mh-actions{margin-left:auto;display:flex;gap:10px}
+.btn{font:inherit;font-weight:700;font-size:15px;border-radius:3px;padding:10px 16px;cursor:pointer;border:2px solid var(--ink);background:transparent;color:var(--ink)}
+.btn.solid{background:var(--ink);color:#fff}
+.btn:hover{text-decoration:none}
+
+/* ---------- Portada: el campo ---------- */
+.turf{
+  background:
+    repeating-linear-gradient(90deg,rgba(255,255,255,.045) 0 9.523%,transparent 9.523% 19.047%),
+    repeating-linear-gradient(0deg,rgba(0,0,0,.07) 0 96px,transparent 96px 192px),
+    var(--turf);
+  position:relative;isolation:isolate}
+.turf::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.35;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .5  0 0 0 0 .5  0 0 0 0 .5  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+/* ---------- Portada: especial Bosman ---------- */
+.lead{--sa:#34DD62;--eu:#4AA8FF;--paper:#F5F5F2;background:#050606;color:var(--paper);position:relative;isolation:isolate;overflow:hidden}
+.lead::before{content:"";position:absolute;inset:0;z-index:-2;background:url("bosman/img/backg.png") center/cover no-repeat;opacity:.42;filter:saturate(.7)}
+.lead::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(5,6,6,.94) 0%,rgba(5,6,6,.7) 45%,rgba(5,6,6,.55) 100%),linear-gradient(180deg,rgba(5,6,6,0) 60%,rgba(5,6,6,.85))}
+.lead .wrap{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:56px;align-items:center;padding-top:72px;padding-bottom:72px;min-height:min(820px,calc(100svh - 132px))}
+.kicker{font-weight:700;font-stretch:80%;font-size:16px;color:rgba(245,245,242,.8);margin-bottom:18px;display:block}
+.kicker.red{color:var(--red)}
+.lead .kicker{display:flex;align-items:center;gap:10px}
+.lead .kicker::before{content:"";width:10px;height:10px;border-radius:50%;background:linear-gradient(90deg,var(--sa) 50%,var(--eu) 50%)}
+.lead h1{font-size:clamp(50px,6vw,96px);line-height:.9;margin-bottom:24px}
+.lead h1 a:hover{text-decoration-thickness:4px;text-underline-offset:8px}
+.dek{font-size:19px;line-height:1.5;max-width:30em;color:rgba(245,245,242,.78)}
+.dek b{font-weight:700;color:var(--paper)}
+.dek .sa{color:var(--sa)}.dek .eu{color:var(--eu)}
+.byline{display:flex;flex-wrap:wrap;gap:6px 20px;margin-top:22px;font-size:15px;color:rgba(245,245,242,.58)}
+.lead .cta{margin-top:30px;display:inline-flex;align-items:center;gap:12px;background:var(--paper);color:#050606;border-color:var(--paper);padding:14px 20px;font-size:16px}
+.lead .cta:hover{background:#fff}
+.lead .cta svg{width:18px;height:18px}
+
+.balance{margin:0}
+.readout{display:grid;grid-template-columns:auto 1fr auto;gap:4px 18px;align-items:end;min-height:64px;padding-bottom:14px;border-bottom:1px solid rgba(245,245,242,.18);margin-bottom:6px}
+.readout .yr{font-weight:900;font-stretch:62%;font-size:52px;line-height:.85;font-variant-numeric:tabular-nums}
+.readout .who{font-size:15px;line-height:1.35;color:rgba(245,245,242,.78)}
+.readout .who b{color:var(--paper);font-weight:600}
+.readout .bal{text-align:right;font-weight:900;font-stretch:62%;font-size:40px;line-height:.9;font-variant-numeric:tabular-nums}
+.readout .bal small{display:block;font-size:13px;font-weight:600;font-stretch:100%;color:rgba(245,245,242,.58);margin-top:4px}
+#balanceChart{display:block;width:100%;height:440px;touch-action:pan-y;cursor:crosshair}
+#balanceChart:focus-visible{outline:2px solid var(--paper);outline-offset:6px}
+.balance figcaption{font-size:13px;color:rgba(245,245,242,.55);margin-top:8px}
+
+/* ---------- Bloques generales ---------- */
+.band{padding:72px 0}
+.band.mow{background:var(--mow)}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:24px;margin-bottom:28px;padding-bottom:14px;border-bottom:3px solid var(--ink)}
+.sec-head h2{font-size:48px}
+.sec-head p,.sec-head a{font-size:15px;color:var(--mute)}
+.sec-head a{font-weight:600;color:var(--ink)}
+.cols{display:grid;grid-template-columns:minmax(0,2fr) minmax(300px,1fr);gap:56px;align-items:start}
+
+/* ---------- Últimas ---------- */
+.top-story{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;padding-bottom:32px;border-bottom:1px solid var(--rule)}
+.top-story h3{font-size:40px;margin-bottom:14px}
+.top-story p{color:var(--mute);max-width:36em}
+.stat-card{background:var(--ink);color:#fff;border-radius:4px;padding:24px;display:flex;flex-direction:column;justify-content:space-between;min-height:220px}
+.stat-card .big{font-size:96px;font-weight:900;font-stretch:62%;line-height:.85;font-variant-numeric:tabular-nums}
+.stat-card .big small{font-size:40px}
+.stat-card p{color:rgba(255,255,255,.75);font-size:15px;max-width:24em}
+.cmp{display:grid;gap:8px;margin:18px 0 16px;font-size:13px}
+.cmp div{display:grid;grid-template-columns:92px 1fr 44px;gap:10px;align-items:center;color:rgba(255,255,255,.75)}
+.cmp i{display:block;height:8px;width:var(--w);background:rgba(255,255,255,.35);border-radius:1px}
+.cmp div:first-child i{background:var(--red)}
+.cmp b{color:#fff;text-align:right;font-variant-numeric:tabular-nums}
+.river{list-style:none;margin:0;padding:0}
+.river li{display:grid;grid-template-columns:96px 1fr;gap:20px;padding:20px 0;border-bottom:1px solid var(--rule)}
+.river time{font-size:14px;color:var(--mute);font-variant-numeric:tabular-nums;padding-top:3px}
+.river .comp{font-size:14px;font-weight:700;font-stretch:80%;color:var(--red);display:block;margin-bottom:4px}
+.river h3{font-size:27px;font-stretch:72%;font-weight:750;line-height:1.05}
+
+/* ---------- Columna lateral ---------- */
+aside{display:grid;gap:44px}
+aside h2{font-size:32px;margin-bottom:14px}
+table{width:100%;border-collapse:collapse;font-size:15px;font-variant-numeric:tabular-nums}
+th{font-weight:600;font-size:13px;color:var(--mute);text-align:right;padding:0 6px 8px}
+th:nth-child(1),th:nth-child(2){text-align:left}
+td{padding:9px 6px;border-top:1px solid var(--rule);text-align:right}
+td:nth-child(1){text-align:left;color:var(--mute);width:24px}
+td:nth-child(2){text-align:left;font-weight:600}
+td.pts{font-weight:800}
+tr.ucl td:first-child{box-shadow:inset 3px 0 0 var(--turf)}
+.form{display:inline-flex;gap:3px;vertical-align:middle}
+.form i{width:9px;height:9px;border-radius:1px;background:#C9CFC8}
+.form i.w{background:var(--turf)}
+.form i.l{background:var(--red)}
+.table-note{font-size:13px;color:var(--mute);margin-top:10px;display:flex;gap:14px;flex-wrap:wrap}
+.table-note span{display:inline-flex;align-items:center;gap:5px}
+.table-note i{width:9px;height:9px;display:inline-block;border-radius:1px}
+.more{display:inline-block;margin-top:14px;font-weight:700;font-size:15px}
+
+.fixtures{list-style:none;margin:0;padding:0}
+.fixtures li{display:grid;grid-template-columns:62px 1fr;gap:14px;padding:12px 0;border-top:1px solid var(--rule)}
+.fixtures .when{font-size:13px;line-height:1.3;color:var(--mute);font-variant-numeric:tabular-nums}
+.fixtures .when b{display:block;color:var(--ink);font-size:16px}
+.fixtures .teams{font-weight:600}
+.fixtures .teams small{display:block;font-weight:400;font-size:13px;color:var(--mute)}
+
+/* ---------- Data Lab ---------- */
+.lab{--turf:var(--turf-deep);color:#fff}
+.lab .sec-head{border-color:#fff}
+.lab .sec-head p{color:var(--chalk-dim);max-width:30em}
+.lab .sec-head a{color:#fff}
+.lab-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.viz{background:rgba(0,0,0,.24);border-radius:4px;padding:22px;display:flex;flex-direction:column}
+.viz h3{font-size:30px;margin-bottom:6px}
+.viz .sub{font-size:15px;color:var(--chalk-dim);margin-bottom:18px}
+.viz svg{width:100%;height:auto;display:block;overflow:visible}
+.viz .legend{margin-top:auto;padding-top:16px;display:flex;flex-wrap:wrap;gap:8px 18px;font-size:13px;color:var(--chalk)}
+.legend span{display:inline-flex;align-items:center;gap:7px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:50%}
+.shot{cursor:default;transition:r .15s}
+.shot:hover{stroke-width:.8}
+.xg-hit{cursor:crosshair}
+.tip{font-size:14px;color:var(--chalk);margin-top:10px;min-height:1.5em;font-variant-numeric:tabular-nums}
+
+/* ---------- Opinión ---------- */
+.opinion{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px 32px}
+.op.feature{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:32px;align-items:end;padding-bottom:40px;border-bottom:1px solid var(--rule)}
+.op.feature blockquote{font-size:clamp(28px,3vw,40px);line-height:1.2;margin:0}
+.op.feature blockquote::before{width:56px;height:6px}
+.op blockquote{margin:0 0 20px;font-family:var(--serif);font-style:italic;font-size:25px;line-height:1.32;font-weight:400}
+.op blockquote::before{content:"";display:block;width:36px;height:4px;background:var(--red);margin-bottom:18px}
+.op .who{display:flex;gap:12px;align-items:center}
+.op .avatar{width:44px;height:44px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:800;font-stretch:62%;font-size:20px;flex:none}
+.op .who b{display:block;font-size:15px}
+.op .who small{font-size:14px;color:var(--mute)}
+.op h3{font-size:24px;font-stretch:72%;margin-bottom:8px}
+
+.scorers{list-style:none;margin:0;padding:0}
+.scorers li{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:10px 0;border-top:1px solid var(--rule)}
+.scorers b{font-weight:600}
+.scorers small{display:block;color:var(--mute);font-size:13px}
+.scorers .g{font-weight:900;font-stretch:62%;font-size:30px;line-height:1;font-variant-numeric:tabular-nums}
+.dots{grid-column:1/-1;display:flex;gap:4px;margin-top:2px}
+.dots i{width:9px;height:9px;border-radius:50%;background:var(--ink)}
+
+.market{list-style:none;margin:0;padding:0}
+.market li{padding:12px 0;border-top:1px solid var(--rule)}
+.market b{display:block;font-weight:600;line-height:1.3}
+.status{font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:6px;margin-top:4px;color:var(--mute)}
+.status::before{content:"";width:8px;height:8px;border-radius:50%;border:2px solid currentColor}
+.status.done{color:var(--turf)}.status.done::before{background:currentColor}
+.status.close{color:var(--red)}
+
+/* ---------- Boletín y pie ---------- */
+.news{color:#fff}
+.news .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:center;padding-top:56px;padding-bottom:56px}
+.news h2{font-size:52px}
+.news p{color:var(--chalk);margin-top:12px;max-width:30em}
+.signup{display:flex;gap:10px}
+.signup input{flex:1;min-width:0;font:inherit;padding:13px 14px;border-radius:3px;border:2px solid #fff;background:transparent;color:#fff}
+.signup input::placeholder{color:rgba(255,255,255,.6)}
+.signup .btn{background:#fff;border-color:#fff;color:var(--ink)}
+.signup-msg{font-size:15px;margin-top:10px;min-height:1.5em;color:var(--chalk)}
+footer{padding:48px 0 40px;font-size:15px;color:var(--mute)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:24px 48px;align-items:center}
+footer img{height:48px}
+footer ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px 24px;margin:0;padding:0}
+footer ul a{color:var(--ink);font-weight:600}
+footer .legal{margin-left:auto}
+
+/* ---------- Adaptación ---------- */
+@media (max-width:1100px){
+  .cols,.news .wrap{grid-template-columns:1fr}
+  .lead .wrap{grid-template-columns:1fr;min-height:0;gap:40px}
+  #balanceChart{height:380px}
+  .lab-grid{grid-template-columns:1fr 1fr}
+  .opinion{grid-template-columns:1fr 1fr}
+  .masthead .wrap{flex-wrap:wrap;height:auto;padding-top:12px;gap:12px 24px}
+  nav{order:3;width:calc(100% + 64px);margin:0 -32px;padding:0 32px;overflow-x:auto;border-top:1px solid var(--rule);scrollbar-width:none}
+  nav ul{padding:12px 0;white-space:nowrap}
+  nav a[aria-current]{padding-bottom:12px}
+  aside{grid-template-columns:1fr 1fr}
+}
+@media (max-width:700px){
+  .wrap{padding:0 18px}
+  nav{width:calc(100% + 36px);margin:0 -18px;padding:0 18px}
+  .logo img{height:46px}
+  .mh-actions .btn:not(.solid){display:none}
+  .lead .wrap{padding-top:44px;padding-bottom:48px}
+  #balanceChart{height:320px}
+  .readout .yr{font-size:40px}.readout .bal{font-size:32px}
+  .op.feature{grid-template-columns:1fr;gap:20px}
+  .band{padding:48px 0}
+  .sec-head h2{font-size:38px}
+  .top-story,.lab-grid,.opinion,aside{grid-template-columns:1fr}
+  .river li{grid-template-columns:1fr;gap:4px}
+  .river h3{font-size:24px}
+  .signup{flex-direction:column}
+  footer .legal{margin-left:0}
+}
+@media (prefers-reduced-motion:reduce){
+  .masthead .wrap,.logo img{transition:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+
+<div class="today" aria-label="Partidos de hoy">
+  <div class="wrap">
+    <strong>Hoy, Europa League</strong>
+    <span class="fx"><span class="live">58′</span>Betis 1–0 Lyon</span>
+    <span class="fx"><span class="live">55′</span>Celta 0–0 PAOK</span>
+    <span class="fx"><time>21:00</time>Real Sociedad – Braga</span>
+    <strong>Conference League</strong>
+    <span class="fx"><time>21:00</time>Rayo Vallecano – Rapid Viena</span>
+  </div>
+</div>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="logo" href="#" aria-label="MAN ON, portada"><img src="man-on-tackle.svg" alt="MAN ON"></a>
+    <nav aria-label="Secciones">
+      <ul>
+        <li><a href="#" aria-current="page">Últimas</a></li>
+        <li><a href="#">Ligas</a></li>
+        <li><a href="#opinion">Opinión</a></li>
+        <li><a href="#datalab">Data Lab</a></li>
+        <li><a href="#">Mercado</a></li>
+        <li><a href="#">Vídeos</a></li>
+      </ul>
+    </nav>
+    <div class="mh-actions">
+      <button class="btn" type="button">Buscar</button>
+      <a class="btn solid" href="#boletin">Suscríbete</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- Portada: especial Bosman -->
+<section class="lead" aria-labelledby="lead-title">
+  <div class="wrap">
+    <div>
+      <span class="kicker">Especial interactivo</span>
+      <h1 id="lead-title"><a href="bosman/index.html">La sentencia que cruzó el Atlántico</a></h1>
+      <p class="dek">Cuando el Tribunal de Justicia de la UE falló a favor de Jean-Marc Bosman, <b class="sa">Sudamérica</b> sumaba siete títulos mundiales más que Europa entre clubes y selecciones. Treinta años después, <b class="eu">Europa</b> le saca diecisiete.</p>
+      <div class="byline"><span>87 títulos, de 1930 a 2026</span><span>Clubes y selecciones</span></div>
+      <a class="btn cta" href="bosman/index.html">Recorrer el siglo</a>
+    </div>
+
+    <figure class="balance">
+      <div class="readout" aria-live="polite">
+        <span class="yr" id="roYear">1995</span>
+        <span class="who" id="roWho"><b>Ajax</b>, club europeo</span>
+        <span class="bal" id="roBal">+7<small>Sudamérica</small></span>
+      </div>
+      <svg id="balanceChart" tabindex="0" role="img" aria-label="Diferencia acumulada de títulos mundiales entre Sudamérica y Europa, de 1930 a 2026. Usa las flechas para recorrer los años."></svg>
+      <figcaption>Ventaja acumulada en Mundiales, Copas Intercontinentales y Mundiales de Clubes. Arriba, Sudamérica; abajo, Europa. Recorre el gráfico año a año.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- Últimas + lateral -->
+<section class="band">
+  <div class="wrap cols">
+    <div>
+      <div class="sec-head"><h2>Últimas</h2><p>Actualizado hace 3 min</p></div>
+
+      <article class="top-story">
+        <div>
+          <span class="kicker red">LaLiga</span>
+          <h3><a href="#">El Villarreal ya no necesita la pelota para mandar en los partidos</a></h3>
+          <p>Tiene menos posesión que la temporada pasada y más puntos. La clave está en lo que pasa en los cinco segundos posteriores a cada robo.</p>
+        </div>
+        <div class="stat-card" aria-label="Dato destacado">
+          <div class="big">4,1<small> s</small></div>
+          <div class="cmp" aria-hidden="true">
+            <div><span>Villarreal</span><i style="--w:52%"></i><b>4,1 s</b></div>
+            <div><span>Media LaLiga</span><i style="--w:100%"></i><b>7,9 s</b></div>
+          </div>
+          <p>Tiempo medio que tarda el Villarreal en tirar tras recuperar en campo rival. Es el más rápido de las cinco grandes ligas.</p>
+        </div>
+      </article>
+
+      <ul class="river">
+        <li><time datetime="2026-10-01T19:48">hace 2 min</time><div><span class="comp">Análisis táctico</span><h3><a href="#">Seis segundos para recuperar el balón: así asfixia el Athletic al rival que acaba de robarle</a></h3></div></li>
+        <li><time datetime="2026-10-01T19:42">hace 8 min</time><div><span class="comp">Europa League</span><h3><a href="#">El Betis se adelanta ante el Lyon con un gol que nace de una presión alta</a></h3></div></li>
+        <li><time datetime="2026-10-01T19:10">hace 40 min</time><div><span class="comp">Premier League</span><h3><a href="#">Arsenal y Liverpool, dos maneras opuestas de defender el área en las jugadas a balón parado</a></h3></div></li>
+        <li><time datetime="2026-10-01T18:05">hace 1 h</time><div><span class="comp">Cantera</span><h3><a href="#">La generación de 2009 que está cambiando la forma de fichar en Lezama</a></h3></div></li>
+        <li><time datetime="2026-10-01T16:30">hace 3 h</time><div><span class="comp">Serie A</span><h3><a href="#">El Como de Fàbregas juega como un grande y ya mira a Europa sin complejos</a></h3></div></li>
+        <li><time datetime="2026-10-01T13:15">hace 6 h</time><div><span class="comp">Bundesliga</span><h3><a href="#">Cómo el Leverkusen reconstruyó su mediocampo sin perder el equilibrio</a></h3></div></li>
+      </ul>
+    </div>
+
+    <aside>
+      <section>
+        <h2>LaLiga</h2>
+        <table>
+          <thead><tr><th>#</th><th>Equipo</th><th>PJ</th><th>DG</th><th>Pts</th><th>Últimos</th></tr></thead>
+          <tbody>
+            <tr class="ucl"><td>1</td><td>Barcelona</td><td>7</td><td>+13</td><td class="pts">19</td><td><span class="form"><i class="w"></i><i class="w"></i><i class="d"></i><i class="w"></i><i class="w"></i></span></td></tr>
+            <tr class="ucl"><td>2</td><td>Real Madrid</td><td>7</td><td>+11</td><td class="pts">18</td><td><span class="form"><i class="w"></i><i class="w"></i><i class="w"></i><i class="l"></i><i class="w"></i></span></td></tr>
+            <tr class="ucl"><td>3</td><td>Villarreal</td><td>7</td><td>+6</td><td class="pts">15</td><td><span class="form"><i class="w"></i><i class="d"></i><i class="w"></i><i class="w"></i><i class="d"></i></span></td></tr>
+            <tr class="ucl"><td>4</td><td>Atlético</td><td>7</td><td>+5</td><td class="pts">14</td><td><span class="form"><i class="d"></i><i class="w"></i><i class="w"></i><i class="d"></i><i class="w"></i></span></td></tr>
+            <tr><td>5</td><td>Athletic</td><td>7</td><td>+4</td><td class="pts">13</td><td><span class="form"><i class="w"></i><i class="l"></i><i class="w"></i><i class="w"></i><i class="d"></i></span></td></tr>
+            <tr><td>6</td><td>Betis</td><td>7</td><td>+2</td><td class="pts">12</td><td><span class="form"><i class="l"></i><i class="w"></i><i class="d"></i><i class="w"></i><i class="w"></i></span></td></tr>
+          </tbody>
+        </table>
+        <div class="table-note">
+          <span><i style="background:var(--turf)"></i>Victoria</span>
+          <span><i style="background:#C9CFC8"></i>Empate</span>
+          <span><i style="background:var(--red)"></i>Derrota</span>
+        </div>
+        <a class="more" href="#">Ver la clasificación completa</a>
+      </section>
+
+      <section>
+        <h2>Próximos partidos</h2>
+        <ul class="fixtures">
+          <li><div class="when"><b>Sáb 3</b>16:15</div><div class="teams">Betis – Valencia<small>LaLiga, jornada 8</small></div></li>
+          <li><div class="when"><b>Sáb 3</b>21:00</div><div class="teams">Barcelona – Athletic<small>LaLiga, jornada 8</small></div></li>
+          <li><div class="when"><b>Dom 4</b>17:30</div><div class="teams">Liverpool – Arsenal<small>Premier League, jornada 7</small></div></li>
+          <li><div class="when"><b>Dom 4</b>20:45</div><div class="teams">Inter – Juventus<small>Serie A, jornada 6</small></div></li>
+        </ul>
+      </section>
+    </aside>
+  </div>
+</section>
+
+<!-- Data Lab -->
+<section class="band lab turf" id="datalab">
+  <div class="wrap">
+    <div class="sec-head"><h2>Data Lab</h2><p>Los partidos de la jornada, contados con lo que dicen los datos y no solo el marcador.</p></div>
+    <div class="lab-grid">
+
+      <article class="viz">
+        <h3>Mapa de tiros</h3>
+        <p class="sub">Barcelona 2–1 Athletic. Cada círculo es un disparo del Barça; cuanto más grande, más probable era el gol.</p>
+        <svg id="shotmap" viewBox="0 0 68 53" role="img" aria-label="Mapa de tiros del Barcelona contra el Athletic"></svg>
+        <p class="tip" id="shot-tip">Pasa por encima de un tiro para ver el detalle.</p>
+        <div class="legend"><span><i style="background:var(--red)"></i>Gol</span><span><i style="border:2px solid #fff"></i>Sin gol</span></div>
+      </article>
+
+      <article class="viz">
+        <h3>Cara a cara</h3>
+        <p class="sub">Nico Williams frente a Lamine Yamal por cada 90 minutos, en percentil respecto a los extremos de LaLiga.</p>
+        <svg id="radar" viewBox="-60 -54 120 108" role="img" aria-label="Radar comparativo de dos extremos"></svg>
+        <div class="legend"><span><i style="background:#fff"></i>Nico Williams</span><span><i style="background:var(--red)"></i>Lamine Yamal</span></div>
+      </article>
+
+      <article class="viz">
+        <h3>Flujo de goles esperados</h3>
+        <p class="sub">El xG acumulado minuto a minuto. El Athletic golpeó primero; el Barça fue sumando ocasiones hasta darle la vuelta.</p>
+        <svg id="xgflow" viewBox="0 0 300 180" role="img" aria-label="Gráfico de xG acumulado"></svg>
+        <p class="tip" id="xg-tip">Recorre el gráfico para ver el xG en cada minuto.</p>
+        <div class="legend"><span><i style="background:#fff"></i>Barcelona 2,31</span><span><i style="background:var(--red)"></i>Athletic 1,04</span></div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- Opinión + lateral -->
+<section class="band mow" id="opinion">
+  <div class="wrap cols">
+    <div>
+      <div class="sec-head"><h2>Opinión</h2><a href="#">Todas las columnas</a></div>
+      <div class="opinion">
+        <article class="op feature">
+          <div><blockquote>El extremo que regatea ya no es un lujo: es la única respuesta a defensas que no conceden espacio a la espalda.</blockquote></div>
+          <div><h3><a href="#">Volver a driblar</a></h3>
+          <div class="who"><span class="avatar" aria-hidden="true">MR</span><div><b>Marta Ruiz</b><small>Exentrenadora en Primera RFEF</small></div></div></div>
+        </article>
+        <article class="op">
+          <blockquote>Hemos convertido el mercado en un concurso de rumores y nos olvidamos de preguntar para qué sirve cada fichaje.</blockquote>
+          <h3><a href="#">El fichaje que nadie explica</a></h3>
+          <div class="who"><span class="avatar" aria-hidden="true">JE</span><div><b>Jon Etxeberria</b><small>Periodista</small></div></div>
+        </article>
+        <article class="op">
+          <blockquote>El xG no te dice quién mereció ganar. Te dice qué partido vale la pena volver a ver.</blockquote>
+          <h3><a href="#">Para qué sirven los datos</a></h3>
+          <div class="who"><span class="avatar" aria-hidden="true">LP</span><div><b>Lucía Prieto</b><small>Analista de datos</small></div></div>
+        </article>
+      </div>
+    </div>
+
+    <aside>
+      <section>
+        <h2>Goleadores</h2>
+        <ul class="scorers">
+          <li><div><b>Kylian Mbappé</b><small>Real Madrid</small></div><span class="g">8</span><span class="dots"></span></li>
+          <li><div><b>Ferran Torres</b><small>Barcelona</small></div><span class="g">6</span><span class="dots"></span></li>
+          <li><div><b>Ayoze Pérez</b><small>Villarreal</small></div><span class="g">5</span><span class="dots"></span></li>
+          <li><div><b>Julián Álvarez</b><small>Atlético</small></div><span class="g">5</span><span class="dots"></span></li>
+        </ul>
+      </section>
+      <section>
+        <h2>Mercado</h2>
+        <ul class="market">
+          <li><b>El Atlético cierra la renovación de su capitán hasta 2028</b><span class="status done">Hecho</span></li>
+          <li><b>La Real negocia con un central de la Eredivisie para enero</b><span class="status close">Negociación avanzada</span></li>
+          <li><b>Un club de la Premier pregunta por el lateral del Betis</b><span class="status">Primer contacto</span></li>
+        </ul>
+      </section>
+    </aside>
+  </div>
+</section>
+
+</main>
+
+<section class="news turf" id="boletin">
+  <div class="wrap">
+    <div>
+      <h2>El lunes, la jornada explicada</h2>
+      <p>Un correo con los tres partidos que hay que entender, los datos que importan y una pizarra. Gratis, y se lee en diez minutos.</p>
+    </div>
+    <div>
+      <form class="signup" id="signup" novalidate>
+        <label class="skip" for="email">Correo electrónico</label>
+        <input id="email" type="email" placeholder="tu@correo.com" autocomplete="email">
+        <button class="btn" type="submit">Suscribirme</button>
+      </form>
+      <p class="signup-msg" id="signup-msg" role="status"></p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <img src="man-on-tackle.svg" alt="MAN ON">
+    <ul>
+      <li><a href="#">Quiénes somos</a></li>
+      <li><a href="#">Contacto</a></li>
+      <li><a href="#">Publicidad</a></li>
+      <li><a href="#">Privacidad</a></li>
+    </ul>
+    <span class="legal">© 2026 MAN ON</span>
+  </div>
+</footer>
+
+<script>
+const NS = "http://www.w3.org/2000/svg";
+const el = (tag, attrs, parent) => {
+  const n = document.createElementNS(NS, tag);
+  for (const k in attrs) n.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(n);
+  return n;
+};
+const fmt = n => n.toFixed(2).replace(".", ",");
+
+/* Mapa de tiros: medio campo vertical, portería arriba */
+(() => {
+  const s = document.getElementById("shotmap");
+  const g = el("g", {fill: "none", stroke: "rgba(255,255,255,.42)", "stroke-width": ".3"}, s);
+  el("rect", {x: 0, y: 0, width: 68, height: 52.5}, g);
+  el("rect", {x: 13.84, y: 0, width: 40.32, height: 16.5}, g);
+  el("rect", {x: 24.84, y: 0, width: 18.32, height: 5.5}, g);
+  el("path", {d: "M26.7 16.5a9.15 9.15 0 0 0 14.6 0"}, g);
+  el("path", {d: "M24.85 52.5a9.15 9.15 0 0 1 18.3 0"}, g);
+  el("circle", {cx: 34, cy: 11, r: .3, fill: "rgba(255,255,255,.42)"}, g);
+  const shots = [
+    // x, y (m desde la portería), xG, gol, minuto, jugador
+    [34, 7, .61, 1, 23, "Ferran Torres"], [30, 11, .19, 0, 31, "Raphinha"],
+    [40, 12, .14, 0, 9, "Pedri"], [27, 20, .05, 0, 14, "Lamine Yamal"],
+    [44, 22, .04, 0, 38, "Lamine Yamal"], [36, 9, .32, 0, 52, "Ferran Torres"],
+    [33, 5, .48, 1, 67, "Raphinha"], [22, 14, .07, 0, 71, "Lamine Yamal"],
+    [38, 26, .03, 0, 74, "Frenkie de Jong"], [31, 15, .12, 0, 80, "Dani Olmo"],
+    [46, 9, .09, 0, 84, "Lamine Yamal"], [35, 13, .17, 0, 88, "Dani Olmo"],
+    [29, 30, .02, 0, 90, "Pedri"]
+  ];
+  const tip = document.getElementById("shot-tip");
+  shots.sort((a, b) => b[2] - a[2]).forEach(([x, y, xg, goal, min, who]) => {
+    const c = el("circle", {
+      class: "shot", cx: x, cy: y, r: 1 + Math.sqrt(xg) * 4.2,
+      fill: goal ? "#BE1214" : "rgba(255,255,255,.08)",
+      stroke: "#fff", "stroke-width": ".4", tabindex: 0
+    }, s);
+    const label = `${min}′ ${who}, xG ${fmt(xg)}${goal ? ", gol" : ""}`;
+    el("title", {}, c).textContent = label;
+    const show = () => { tip.textContent = label; };
+    c.addEventListener("mouseenter", show);
+    c.addEventListener("focus", show);
+  });
+})();
+
+/* Radar */
+(() => {
+  const s = document.getElementById("radar");
+  const axes = ["Goles", "xG", "Asistencias", "Regates", "Pases clave", "Presiones"];
+  const players = [
+    {v: [72, 68, 61, 93, 70, 84], stroke: "#fff", fill: "rgba(255,255,255,.18)"},
+    {v: [66, 74, 90, 88, 95, 52], stroke: "#BE1214", fill: "rgba(190,18,20,.35)"}
+  ];
+  const R = 40, n = axes.length;
+  const pt = (i, r) => {
+    const a = -Math.PI / 2 + i * 2 * Math.PI / n;
+    return [Math.cos(a) * r, Math.sin(a) * r];
+  };
+  [.25, .5, .75, 1].forEach(f => {
+    el("polygon", {points: axes.map((_, i) => pt(i, R * f).join(",")).join(" "),
+      fill: "none", stroke: "rgba(255,255,255,.22)", "stroke-width": ".3"}, s);
+  });
+  axes.forEach((name, i) => {
+    const [x, y] = pt(i, R);
+    el("line", {x1: 0, y1: 0, x2: x, y2: y, stroke: "rgba(255,255,255,.22)", "stroke-width": ".3"}, s);
+    const [lx, ly] = pt(i, R + 7);
+    const t = el("text", {x: lx, y: ly + 1.3, "text-anchor": Math.abs(lx) < 2 ? "middle" : lx > 0 ? "start" : "end",
+      fill: "rgba(255,255,255,.82)", "font-size": "4.2", "font-family": "Archivo, Arial, sans-serif"}, s);
+    t.textContent = name;
+  });
+  players.forEach(p => {
+    el("polygon", {points: p.v.map((v, i) => pt(i, R * v / 100).join(",")).join(" "),
+      fill: p.fill, stroke: p.stroke, "stroke-width": ".8", "stroke-linejoin": "round"}, s);
+  });
+})();
+
+/* Flujo de xG */
+(() => {
+  const s = document.getElementById("xgflow");
+  const W = 300, H = 180, L = 26, B = 160, T = 10, Rr = 290, maxY = 2.5;
+  const X = m => L + (Rr - L) * m / 95, Y = v => B - (B - T) * v / maxY;
+  for (let v = 0; v <= 2.5; v += .5) {
+    el("line", {x1: L, x2: Rr, y1: Y(v), y2: Y(v), stroke: "rgba(255,255,255,.14)", "stroke-width": ".6"}, s);
+    const t = el("text", {x: L - 6, y: Y(v) + 3.5, "text-anchor": "end", fill: "rgba(255,255,255,.62)", "font-size": "10", "font-family": "Archivo, Arial, sans-serif"}, s);
+    t.textContent = v.toFixed(1).replace(".", ",");
+  }
+  [0, 45, 90].forEach(m => {
+    const t = el("text", {x: X(m), y: H - 4, "text-anchor": "middle", fill: "rgba(255,255,255,.62)", "font-size": "10", "font-family": "Archivo, Arial, sans-serif"}, s);
+    t.textContent = m + "′";
+  });
+  el("line", {x1: X(45), x2: X(45), y1: T, y2: B, stroke: "rgba(255,255,255,.3)", "stroke-width": ".6", "stroke-dasharray": "3 3"}, s);
+  const teams = [
+    {shots: [[9,.14,0],[14,.05,0],[23,.61,1],[31,.19,0],[38,.04,0],[52,.32,0],[67,.48,1],[71,.07,0],[74,.03,0],[80,.12,0],[84,.09,0],[88,.17,0],[90,.02,0]], c: "#fff"},
+    {shots: [[6,.22,0],[12,.41,1],[19,.08,0],[27,.13,0],[40,.06,0],[58,.05,0],[77,.09,0]], c: "#BE1214"}
+  ];
+  teams.forEach(tm => {
+    let acc = 0, d = `M${X(0)} ${Y(0)}`;
+    const goals = [];
+    tm.shots.forEach(([m, xg, goal]) => {
+      d += ` H${X(m)}`; acc += xg; d += ` V${Y(acc)}`;
+      if (goal) goals.push([X(m), Y(acc)]);
+    });
+    d += ` H${X(94)}`;
+    el("path", {d, fill: "none", stroke: tm.c, "stroke-width": "2.4", "stroke-linejoin": "round"}, s);
+    goals.forEach(([x, y]) => el("circle", {cx: x, cy: y, r: 4.5, fill: tm.c, stroke: "#153B22", "stroke-width": "1.5"}, s));
+  });
+
+  // Recorrido minuto a minuto
+  const tip = document.getElementById("xg-tip");
+  const cursor = el("line", {y1: T, y2: B, stroke: "rgba(255,255,255,.7)", "stroke-width": ".8", opacity: 0}, s);
+  const hit = el("rect", {class: "xg-hit", x: L, y: T, width: Rr - L, height: B - T, fill: "transparent"}, s);
+  const accAt = (shots, m) => shots.reduce((a, [sm, xg]) => sm <= m ? a + xg : a, 0);
+  const goalsAt = (shots, m) => shots.reduce((a, [sm, , g]) => sm <= m ? a + g : a, 0);
+  const show = m => {
+    m = Math.max(0, Math.min(94, Math.round(m)));
+    cursor.setAttribute("x1", X(m)); cursor.setAttribute("x2", X(m)); cursor.setAttribute("opacity", 1);
+    const [a, b] = teams;
+    tip.textContent = `${Math.min(m, 90)}′${m > 90 ? "+" + (m - 90) : ""}  Barcelona ${goalsAt(a.shots, m)}–${goalsAt(b.shots, m)} Athletic   xG ${fmt(accAt(a.shots, m))} – ${fmt(accAt(b.shots, m))}`;
+  };
+  hit.addEventListener("pointermove", e => {
+    const r = s.getBoundingClientRect();
+    const vx = (e.clientX - r.left) / r.width * W;
+    show((vx - L) / (Rr - L) * 95);
+  });
+  hit.addEventListener("pointerleave", () => cursor.setAttribute("opacity", 0));
+})();
+
+/* Portada: la balanza del siglo */
+(() => {
+  const DATA = [[1930,"Uruguay","S","N",1],[1934,"Italy","E","N",0],[1938,"Italy","E","N",-1],[1950,"Uruguay","S","N",0],[1954,"Germany","E","N",-1],[1958,"Brazil","S","N",0],[1960,"Real Madrid","E","C",-1],[1961,"Peñarol","S","C",0],[1962,"Brazil","S","N",1],[1962,"Santos","S","C",2],[1963,"Santos","S","C",3],[1964,"Inter Milan","E","C",2],[1965,"Inter Milan","E","C",1],[1966,"England","E","N",0],[1966,"Peñarol","S","C",1],[1967,"Racing Club","S","C",2],[1968,"Estudiantes LP","S","C",3],[1969,"AC Milan","E","C",2],[1970,"Brazil","S","N",3],[1970,"Feyenoord","E","C",2],[1971,"Nacional","S","C",3],[1972,"Ajax","E","C",2],[1973,"Independiente","S","C",3],[1974,"Atlético Madrid","E","C",2],[1974,"Germany","E","N",1],[1976,"Bayern Munich","E","C",0],[1977,"Boca Juniors","S","C",1],[1978,"Argentina","S","N",2],[1979,"Olimpia","S","C",3],[1980,"Nacional","S","C",4],[1981,"Flamengo","S","C",5],[1982,"Italy","E","N",4],[1982,"Peñarol","S","C",5],[1983,"Grêmio","S","C",6],[1984,"Independiente","S","C",7],[1985,"Juventus","E","C",6],[1986,"Argentina","S","N",7],[1986,"River Plate","S","C",8],[1987,"Porto","E","C",7],[1988,"Nacional","S","C",8],[1989,"AC Milan","E","C",7],[1990,"AC Milan","E","C",6],[1990,"Germany","E","N",5],[1991,"Red Star Belgrade","E","C",4],[1992,"São Paulo","S","C",5],[1993,"São Paulo","S","C",6],[1994,"Brazil","S","N",7],[1994,"Vélez Sarsfield","S","C",8],[1995,"Ajax","E","C",7],[1996,"Juventus","E","C",6],[1997,"Borussia Dortmund","E","C",5],[1998,"France","E","N",4],[1998,"Real Madrid","E","C",3],[1999,"Manchester United","E","C",2],[2000,"Boca Juniors","S","C",3],[2001,"Bayern Munich","E","C",2],[2002,"Brazil","S","N",3],[2002,"Real Madrid","E","C",2],[2003,"Boca Juniors","S","C",3],[2004,"Porto","E","C",2],[2005,"São Paulo","S","C",3],[2006,"Internacional","S","C",4],[2006,"Italy","E","N",3],[2007,"AC Milan","E","C",2],[2008,"Manchester United","E","C",1],[2009,"Barcelona","E","C",0],[2010,"Inter Milan","E","C",-1],[2010,"Spain","E","N",-2],[2011,"Barcelona","E","C",-3],[2012,"Corinthians","S","C",-2],[2013,"Bayern Munich","E","C",-3],[2014,"Germany","E","N",-4],[2014,"Real Madrid","E","C",-5],[2015,"Barcelona","E","C",-6],[2016,"Real Madrid","E","C",-7],[2017,"Real Madrid","E","C",-8],[2018,"France","E","N",-9],[2018,"Real Madrid","E","C",-10],[2019,"Liverpool","E","C",-11],[2020,"Bayern Munich","E","C",-12],[2021,"Chelsea","E","C",-13],[2022,"Argentina","S","N",-12],[2022,"Real Madrid","E","C",-13],[2023,"Manchester City","E","C",-14],[2024,"Real Madrid","E","C",-15],[2025,"Paris Saint-Germain","E","C",-16],[2026,"Spain","E","N",-17]]; // [año, campeón, S|E, C|N, balance tras el título]
+  const SA = "#34DD62", EU = "#4AA8FF", BOSMAN = 1995.96;
+  const svg = document.getElementById("balanceChart");
+  const roYear = document.getElementById("roYear"), roWho = document.getElementById("roWho"), roBal = document.getElementById("roBal");
+  const years = [...new Set(DATA.map(d => d[0]))];
+  const byYear = y => DATA.filter(d => d[0] === y);
+  const balAt = y => { let b = 0; for (const d of DATA) if (d[0] <= y) b = d[4]; return b; };
+  const reduced = matchMedia("(prefers-reduced-motion:reduce)").matches;
+  let geo = null, idx = years.indexOf(1995), drawn = false;
+
+  function render() {
+    const W = svg.clientWidth, H = svg.clientHeight;
+    const small = W < 520;
+    const m = {l: small ? 30 : 38, r: small ? 12 : 20, t: 18, b: 30};
+    const x = y => m.l + (y - 1930) / (2026.9 - 1930) * (W - m.l - m.r);
+    const yv = v => m.t + (10 - v) / 28 * (H - m.t - m.b);
+    geo = {x, yv, W, H, m};
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+    svg.innerHTML = "";
+    const g = (tag, a, p = svg) => el(tag, a, p);
+    const font = {"font-family": "Archivo, Arial, sans-serif", "font-size": small ? 11 : 12};
+
+    // Rejilla
+    for (let v = 10; v >= -15; v -= 5) {
+      g("line", {x1: m.l, x2: W - m.r, y1: yv(v), y2: yv(v), stroke: v === 0 ? "rgba(245,245,242,.55)" : "rgba(245,245,242,.1)", "stroke-width": 1});
+      const t = g("text", {...font, x: m.l - 8, y: yv(v) + 4, "text-anchor": "end", fill: "rgba(245,245,242,.5)"});
+      t.textContent = v > 0 ? "+" + v : v < 0 ? "+" + (-v) : "0";
+    }
+    (small ? [1930, 1970, 2010] : [1930, 1950, 1970, 1990, 2010]).forEach(y => {
+      const t = g("text", {...font, x: x(y), y: H - 8, "text-anchor": "middle", fill: "rgba(245,245,242,.5)"});
+      t.textContent = y;
+    });
+    const lab = (txt, v, col) => { const t = g("text", {...font, x: m.l + 8, y: yv(v), "text-anchor": "start", fill: col, "font-weight": 700}); t.textContent = txt; };
+    lab("Sudamérica por delante", 9, SA);
+    lab("Europa por delante", -14.4, EU);
+
+    // Línea escalonada
+    let d = `M${x(1930)} ${yv(0)}`, prev = 0;
+    years.forEach(y => { const b = balAt(y); d += ` H${x(y)} V${yv(b)}`; prev = b; });
+    d += ` H${x(2026.9)}`;
+    const area = d + ` V${yv(0)} Z`;
+    const defs = g("defs", {});
+    const cpUp = g("clipPath", {id: "cpUp"}, defs); g("rect", {x: 0, y: 0, width: W, height: yv(0)}, cpUp);
+    const cpDn = g("clipPath", {id: "cpDn"}, defs); g("rect", {x: 0, y: yv(0), width: W, height: H}, cpDn);
+    const cpReveal = g("clipPath", {id: "cpReveal"}, defs);
+    const revealRect = g("rect", {x: 0, y: 0, width: drawn || reduced ? W : m.l, height: H}, cpReveal);
+    const plot = g("g", {"clip-path": "url(#cpReveal)"});
+    g("path", {d: area, fill: "rgba(52,221,98,.22)", "clip-path": "url(#cpUp)"}, plot);
+    g("path", {d: area, fill: "rgba(74,168,255,.22)", "clip-path": "url(#cpDn)"}, plot);
+    g("path", {d, fill: "none", stroke: SA, "stroke-width": 2.5, "stroke-linejoin": "round", "clip-path": "url(#cpUp)"}, plot);
+    g("path", {d, fill: "none", stroke: EU, "stroke-width": 2.5, "stroke-linejoin": "round", "clip-path": "url(#cpDn)"}, plot);
+
+    // Sentencia Bosman
+    const bz = g("g", {opacity: drawn || reduced ? 1 : 0, id: "bosmanMark"});
+    g("line", {x1: x(BOSMAN), x2: x(BOSMAN), y1: m.t - 6, y2: H - m.b, stroke: "#F5F5F2", "stroke-width": 1.5}, bz);
+    const bt = g("text", {...font, x: x(BOSMAN) - 10, y: yv(-5), "text-anchor": "end", fill: "#F5F5F2", "font-weight": 700, "font-size": small ? 12 : 14}, bz);
+    bt.textContent = "Sentencia Bosman";
+    const bs = g("text", {...font, x: x(BOSMAN) - 10, y: yv(-5) + 17, "text-anchor": "end", fill: "rgba(245,245,242,.62)"}, bz);
+    bs.textContent = "15 dic 1995";
+    g("circle", {cx: x(BOSMAN), cy: yv(7), r: 5, fill: SA, stroke: "#050606", "stroke-width": 2}, bz);
+    g("circle", {cx: x(2026.9), cy: yv(-17), r: 5, fill: EU, stroke: "#050606", "stroke-width": 2}, bz);
+
+    // Cursor
+    geo.cur = g("line", {y1: m.t, y2: H - m.b, stroke: "rgba(245,245,242,.6)", "stroke-width": 1, "stroke-dasharray": "3 3", opacity: 0});
+    geo.dot = g("circle", {r: 4.5, fill: "#050606", "stroke-width": 2, opacity: 0});
+    geo.revealRect = revealRect;
+  }
+
+  function select(i, showCursor = true) {
+    idx = Math.max(0, Math.min(years.length - 1, i));
+    const y = years[idx], b = balAt(y), wins = byYear(y);
+    roYear.textContent = y;
+    roWho.innerHTML = wins.map(w => `<b>${w[1]}</b>, ${w[3] === "C" ? "club" : "selección"} ${w[2] === "S" ? "sudamericana" : "europea"}`.replace("club sudamericana", "club sudamericano").replace("club europea", "club europeo")).join("<br>");
+    roBal.innerHTML = b === 0 ? `0<small>Empate</small>` : `+${Math.abs(b)}<small>${b > 0 ? "Sudamérica" : "Europa"}</small>`;
+    roBal.style.color = b > 0 ? SA : b < 0 ? EU : "#F5F5F2";
+    if (showCursor && geo) {
+      const cx = geo.x(y);
+      geo.cur.setAttribute("x1", cx); geo.cur.setAttribute("x2", cx); geo.cur.setAttribute("opacity", 1);
+      Object.entries({cx, cy: geo.yv(b), stroke: b >= 0 ? SA : EU, opacity: 1}).forEach(([k, v]) => geo.dot.setAttribute(k, v));
+    }
+  }
+  function fromPointer(e) {
+    const r = svg.getBoundingClientRect();
+    const yr = 1930 + (e.clientX - r.left - geo.m.l) / (r.width - geo.m.l - geo.m.r) * (2026.9 - 1930);
+    let i = 0; years.forEach((y, j) => { if (y <= yr) i = j; });
+    select(i);
+  }
+
+  render(); select(idx, false);
+  svg.addEventListener("pointermove", fromPointer);
+  svg.addEventListener("pointerdown", fromPointer);
+  svg.addEventListener("keydown", e => {
+    const step = {ArrowRight: 1, ArrowLeft: -1, Home: -999, End: 999}[e.key];
+    if (step === undefined) return;
+    e.preventDefault(); select(idx + step);
+  });
+  let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { render(); select(idx, svg.matches(":hover,:focus")); }, 120); });
+
+  // Un único momento: la balanza se dibuja de 1930 a hoy
+  if (!reduced) {
+    const t0 = performance.now(), dur = 2200, full = geo.W;
+    const tick = now => {
+      const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+      geo.revealRect.setAttribute("width", geo.m.l + (full - geo.m.l) * e);
+      if (k > .7) document.getElementById("bosmanMark").setAttribute("opacity", Math.min(1, (k - .7) / .3));
+      if (k < 1) requestAnimationFrame(tick); else drawn = true;
+    };
+    setTimeout(() => requestAnimationFrame(tick), 300);
+  } else drawn = true;
+})();
+
+/* Goleadores: un punto por gol */
+document.querySelectorAll(".scorers li").forEach(li => {
+  const n = +li.querySelector(".g").textContent;
+  const dots = li.querySelector(".dots");
+  dots.setAttribute("aria-hidden", "true");
+  dots.innerHTML = "<i></i>".repeat(n);
+});
+
+/* Cabecera compacta al bajar */
+(() => {
+  const mh = document.querySelector(".masthead");
+  const onScroll = () => mh.classList.toggle("compact", scrollY > 60);
+  addEventListener("scroll", onScroll, {passive: true}); onScroll();
+})();
+
+/* Boletín */
+document.getElementById("signup").addEventListener("submit", e => {
+  e.preventDefault();
+  const input = document.getElementById("email");
+  const msg = document.getElementById("signup-msg");
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim())) {
+    msg.textContent = "Escribe un correo con el formato nombre@dominio.com.";
+    input.focus();
+    return;
+  }
+  msg.textContent = "Suscrito. El primer boletín te llega el lunes.";
+  input.value = "";
+});
+</script>
+</body>
+</html>

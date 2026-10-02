@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#050606">
+  <meta name="description" content="Explore how the balance of FIFA world champions shifted between South America and Europe from 1930 to 2026.">
+  <title>Bosman Ruling — A Century of Champions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600&family=Barlow+Condensed:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --sa:#34dd62;
+      --eu:#4aa8ff;
+      --ink:#f5f5f2;
+      --muted:rgba(245,245,242,.58);
+      --faint:rgba(245,245,242,.14);
+      --panel:rgba(8,9,9,.68);
+      --year-progress:0%;
+      --year-track-trim:0px;
+    }
+    *{box-sizing:border-box}
+    html{background:#050606;scroll-behavior:auto}
+    body{margin:0;background:#050606;color:var(--ink);font-family:"Albert Sans",sans-serif;overflow-x:hidden}
+    button{font:inherit}
+    .scroll-space{height:11500px;position:relative}
+    .scene{position:sticky;top:0;width:100%;height:100svh;min-height:600px;overflow:hidden;background:#050606;isolation:isolate}
+    .backdrop{position:absolute;inset:0;background:url("./img/backg.png") center/cover no-repeat;filter:saturate(.78) contrast(1.08) brightness(.9)}
+    .backdrop::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.76) 0%,rgba(0,0,0,.57) 27%,rgba(0,0,0,.45) 58%,rgba(0,0,0,.7) 100%),linear-gradient(180deg,rgba(0,0,0,.3),rgba(0,0,0,.08) 45%,rgba(0,0,0,.72));}
+    .backdrop::after{content:"";position:absolute;inset:0;opacity:.11;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.86' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");mix-blend-mode:soft-light}
+    .vignette{position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 130px 38px rgba(0,0,0,.78);z-index:2}
+
+    .topbar{position:absolute;z-index:20;top:0;left:0;right:0;height:88px;margin:0 clamp(24px,3.4vw,66px);display:grid;grid-template-columns:minmax(310px,1fr) auto;align-items:center;gap:28px}
+    .title{display:flex;align-items:center;gap:22px;margin:0;white-space:nowrap}
+    .brand-name{font:800 18px/.92 "Barlow Condensed",sans-serif;letter-spacing:-.025em;text-transform:uppercase}
+    .brand-name b{display:block;font:inherit;letter-spacing:inherit}
+    .brand-name b:first-child{font-size:.95em}
+    .brand-separator{width:1px;height:34px;background:rgba(255,255,255,.55)}
+    .brand-description{font:500 10px/1.7 "Albert Sans",sans-serif;letter-spacing:.39em;text-transform:uppercase;color:rgba(255,255,255,.72)}
+    .mobile-filter{display:block;position:relative;justify-self:end}
+    .mobile-filter::after{content:"";position:absolute;right:11px;top:50%;width:6px;height:6px;border-right:1px solid #fff;border-bottom:1px solid #fff;transform:translateY(-68%) rotate(45deg);pointer-events:none}
+    .mobile-filter select{height:31px;min-width:132px;padding:0 29px 0 12px;appearance:none;border:1px solid rgba(255,255,255,.58);border-radius:0;background:rgba(3,5,5,.74);color:#fff;font:700 11px/1 "Barlow Condensed",sans-serif;letter-spacing:.12em;text-transform:uppercase;outline:none}
+    .mobile-filter option{background:#080909;color:#fff}
+
+    .intro{position:absolute;z-index:10;left:clamp(32px,5vw,96px);top:50%;width:min(430px,31vw);transform:translateY(-45%);transition:opacity .5s ease,transform .5s ease;pointer-events:none}
+    .intro.is-hidden{opacity:0;transform:translateY(-52%)}
+    .intro-index{display:flex;align-items:center;gap:15px;width:100%;margin-bottom:18px;color:rgba(255,255,255,.8);font:600 11px/1 "Albert Sans",sans-serif;letter-spacing:.18em}
+    .intro-index i{display:block;width:110px;height:1px;background:linear-gradient(90deg,#fff,rgba(255,255,255,.2))}
+    .intro h2{margin:0 0 22px;font:800 clamp(62px,6vw,116px)/.83 "Barlow Condensed",sans-serif;letter-spacing:-.035em;text-transform:uppercase}
+    .intro p{width:min(420px,100%);margin:0;padding-top:20px;border-top:1px solid rgba(255,255,255,.28);color:rgba(255,255,255,.75);font-size:16px;line-height:1.55}
+    .scroll-cue{display:flex;align-items:center;gap:13px;margin-top:34px;color:rgba(255,255,255,.7);font:600 11px/1.45 "Albert Sans",sans-serif;letter-spacing:.24em;text-transform:uppercase}
+    .mouse{position:relative;width:22px;height:36px;border:1px solid rgba(255,255,255,.8);border-radius:13px;flex:none}
+    .mouse::after{content:"";position:absolute;left:50%;top:8px;width:2px;height:7px;background:#fff;transform:translateX(-50%);animation:wheel 1.5s infinite}
+    @keyframes wheel{0%{opacity:0;transform:translate(-50%,0)}30%{opacity:1}100%{opacity:0;transform:translate(-50%,9px)}}
+
+    .story{position:absolute;z-index:12;left:clamp(30px,4.2vw,82px);top:118px;bottom:54px;width:clamp(280px,25vw,430px);display:flex;flex-direction:column;justify-content:flex-start;opacity:0;transform:translateX(-16px);transition:opacity .42s ease,transform .42s ease;pointer-events:none}
+    .story.is-visible{opacity:1;transform:none;pointer-events:auto}
+    .chapter-title{max-width:390px;margin:0;font:800 clamp(40px,4.1vw,76px)/.92 "Barlow Condensed",sans-serif;letter-spacing:-.025em;text-transform:uppercase}
+    .chapter-copy{max-width:390px;margin:20px 0 0;color:rgba(255,255,255,.72);font-size:15px;line-height:1.55}
+    .story-scoreboard{position:relative;width:100%;height:auto;margin-top:27px;display:grid;grid-template-columns:minmax(0,1fr) 42px minmax(0,1fr);gap:0;align-items:stretch;background:rgba(0,0,0,.1);box-shadow:0 10px 30px rgba(0,0,0,.28)}
+    .story-scoreboard::after{content:"";position:absolute;inset:0;padding:1px;background:linear-gradient(100deg,var(--sa),color-mix(in srgb,var(--sa) 45%,var(--eu)) 50%,var(--eu));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;pointer-events:none;z-index:3}
+    .story-scoreboard::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--sa),rgba(255,255,255,.75) 50%,var(--eu));opacity:.92;pointer-events:none;z-index:4}
+    .confed-card{position:relative;min-width:0;padding:13px 13px 11px;border:0;background:none;box-shadow:none}
+    .stage-scoreboard{width:min(430px,62%);margin:0 auto 14px;flex:none}
+    .confed-head{display:flex;align-items:center;gap:9px;min-height:46px}
+    .confed-head .confed-mark{width:46px;height:46px;flex:none;background:var(--mark) center/contain no-repeat;filter:drop-shadow(0 0 9px color-mix(in srgb,var(--score-color) 28%,transparent))}
+    .confed-head span,.confed-head small{display:block;text-transform:uppercase}
+    .confed-name{color:#fff;font:700 13px/1 "Albert Sans",sans-serif;letter-spacing:.12em}
+    .confed-region{margin-top:4px;color:rgba(255,255,255,.62);font:600 7px/1 "Albert Sans",sans-serif;letter-spacing:.17em}
+    .confed-total{display:flex;align-items:flex-end;gap:8px;margin:7px 0 9px}
+    .confed-total strong{color:var(--score-color);font:700 43px/.82 "Albert Sans",sans-serif;letter-spacing:-.05em}
+    .confed-total span{padding-bottom:2px;color:rgba(255,255,255,.78);font:600 7px/1.15 "Albert Sans",sans-serif;letter-spacing:.15em;text-transform:uppercase}
+    .confed-breakdown{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid rgba(255,255,255,.22)}
+    .confed-breakdown span{display:flex;align-items:baseline;justify-content:space-between;gap:4px;padding:8px 6px 0 0}
+    .confed-breakdown span+span{padding-left:7px;border-left:1px solid rgba(255,255,255,.22)}
+    .confed-breakdown small{color:rgba(255,255,255,.68);font:600 6.5px/1 "Albert Sans",sans-serif;letter-spacing:.08em;text-transform:uppercase}
+    .confed-breakdown b{color:#fff;font:700 15px/1 "Albert Sans",sans-serif}
+    .versus{position:relative;z-index:2;display:flex;align-items:center;justify-content:center}
+    .versus::before{content:"";position:absolute;top:9px;bottom:9px;left:50%;width:1px;background:linear-gradient(transparent,rgba(255,255,255,.45),transparent)}
+    .versus span{position:relative;display:grid;place-items:center;width:38px;height:38px;border:1px solid rgba(255,255,255,.65);border-radius:50%;background:#050606;box-shadow:0 0 18px rgba(255,255,255,.12);font:800 13px/1 "Barlow Condensed",sans-serif;letter-spacing:.08em}
+
+    .stage{position:absolute;z-index:8;left:30%;right:10%;top:92px;bottom:38px;display:flex;flex-direction:column;align-items:center;transition:opacity .45s ease,transform .45s ease}
+    .stage.is-intro-hidden{opacity:0!important;transform:translateY(14px);pointer-events:none}
+    .stage-scoreboard{transition:opacity .3s ease}
+    .stage.is-muted .stage-scoreboard{opacity:0}
+    .current{position:relative;width:100%;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
+    .active-year{font:600 clamp(18px,1.5vw,28px)/1 "Albert Sans",sans-serif;letter-spacing:.18em;color:rgba(255,255,255,.78)}
+    .current-winners{display:flex;align-items:flex-end;justify-content:center;gap:clamp(28px,3.5vw,68px);min-height:112px;margin-top:8px}
+    .current-winner{display:flex;min-width:118px;flex-direction:column;align-items:center;justify-content:flex-end}
+    .current-winner-crest{width:clamp(54px,4vw,76px);height:clamp(54px,4vw,76px);object-fit:contain;filter:drop-shadow(0 5px 14px rgba(0,0,0,.7));margin-bottom:8px}
+    .current-winner-name{font:700 clamp(17px,1.45vw,25px)/1 "Barlow Condensed",sans-serif;letter-spacing:.04em;text-transform:uppercase;text-shadow:0 2px 10px #000}
+    .current-empty{max-width:640px;font:800 clamp(40px,3.7vw,68px)/.9 "Barlow Condensed",sans-serif;letter-spacing:.01em;text-transform:uppercase}
+    .stage-current{width:100%;min-height:230px;flex:none;align-items:center;text-align:center;transition:opacity .28s ease}
+    .stage-current.is-empty{visibility:hidden;opacity:0}
+    .stage-current .current-winners{min-height:198px;margin-top:0;gap:42px}
+    .stage-current .current-winner{min-width:180px;align-items:center}
+    .stage-current .current-winner-crest{width:180px;height:180px;margin-bottom:8px}
+    .stage-current .current-winner-name{font-size:20px}
+    .stage-current .active-year{margin-top:10px;font-size:15px}
+    .story-current{min-height:300px;margin-top:26px}
+    .story-current .current-winners{width:100%;min-height:258px;gap:18px}
+    .story-current .current-winner{min-width:0;flex:1}
+    .story-current .current-winner-crest{width:175px;height:220px;margin-bottom:10px}
+    .story-current .current-winner:only-child .current-winner-crest{width:250px;height:250px}
+    .story-current .current-winner-name{font-size:26px}
+    .story-current .active-year{margin-top:11px;font-size:18px}
+
+    .scoreboard{height:92px;display:grid;grid-template-columns:1fr 1px 1fr;align-items:center;gap:31px}
+    .score-divider{height:65px;background:rgba(255,255,255,.35)}
+    .score{display:grid;grid-template-columns:50px auto;align-items:center;gap:12px;min-width:170px}
+    .score:last-child{grid-template-columns:auto 50px;text-align:right}
+    .score img{width:50px;height:50px;object-fit:contain}
+    .score .continent{display:block;margin-bottom:1px;color:var(--score-color);font:600 12px/1 "Albert Sans",sans-serif;letter-spacing:.14em;text-transform:uppercase}
+    .score strong{display:inline-block;color:var(--score-color);font:700 42px/.95 "Albert Sans",sans-serif;min-width:2ch}
+    .score small{margin-left:6px;color:rgba(255,255,255,.4);font:500 10px/1 "Albert Sans",sans-serif;letter-spacing:.16em;text-transform:uppercase}
+
+    .bubble-field{position:relative;width:100%;flex:1;min-height:260px;margin-top:4px}
+    .bubble{position:absolute;left:0;top:0;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid color-mix(in srgb,var(--bubble-color) 78%,white 22%);border-radius:50%;background:radial-gradient(circle at 38% 28%,color-mix(in srgb,var(--bubble-color) 25%,transparent),rgba(5,7,6,.78) 65%);box-shadow:inset 0 0 28px rgba(0,0,0,.38),0 0 16px color-mix(in srgb,var(--bubble-color) 18%,transparent);color:#fff;transform:translate3d(var(--bx,0px),var(--by,0px),0) translate(-50%,-50%) scale(var(--bs,1));transition:transform .5s cubic-bezier(.2,.7,.2,1),width .42s ease,height .42s ease,opacity .35s ease;overflow:hidden;text-align:center;padding:5px;will-change:transform;backface-visibility:hidden;contain:layout style}
+    .bubble.is-active{z-index:6;border-width:2px;box-shadow:0 0 10px var(--bubble-color),0 0 34px color-mix(in srgb,var(--bubble-color) 55%,transparent),inset 0 0 30px color-mix(in srgb,var(--bubble-color) 15%,black);--bs:1.08}
+    .bubble-crest{position:absolute;z-index:0;left:20%;top:20%;width:60%;height:60%;object-fit:contain;object-position:center;opacity:.11;filter:saturate(.72) contrast(1.08);pointer-events:none;transition:opacity .3s ease,transform .3s ease}
+    .bubble.is-active .bubble-crest{opacity:.17;transform:scale(1.04)}
+    .bubble-name{position:relative;z-index:1;max-width:88%;font:600 clamp(8px,.72vw,13px)/1.05 "Albert Sans",sans-serif;white-space:normal;text-shadow:0 1px 4px #000,0 0 10px rgba(0,0,0,.92)}
+    .bubble-count{position:relative;z-index:1;margin-top:5px;color:var(--bubble-color);font:700 clamp(10px,.9vw,17px)/1 "Albert Sans",sans-serif;text-shadow:0 1px 4px #000,0 0 10px #000}
+    .bubble-count::after{content:" ×";font-size:.68em}
+
+    .timeline{position:absolute;z-index:15;top:102px;right:0;bottom:48px;width:100px}
+    .timeline-track,.timeline-fill,.timeline-dots,.timeline-marker{pointer-events:none}
+    .timeline-track{position:absolute;left:23px;top:8px;bottom:26px;width:1px;background:rgba(255,255,255,.42)}
+    .timeline-fill{position:absolute;left:22px;top:8px;width:3px;height:calc(var(--year-progress) - var(--year-track-trim));max-height:calc(100% - 34px);background:linear-gradient(var(--sa),#fff 68%,var(--eu));box-shadow:0 0 14px rgba(255,255,255,.22)}
+    .timeline-hit{position:absolute;left:2px;right:0;top:8px;bottom:26px;z-index:8;cursor:pointer;touch-action:none;-webkit-tap-highlight-color:transparent}
+    .timeline-hit:focus-visible{outline:1px solid rgba(255,255,255,.5);outline-offset:3px;border-radius:12px}
+    .timeline.is-scrubbing .timeline-hit{cursor:grabbing}
+    .timeline-ghost{position:absolute;left:0;right:0;top:8px;height:0;z-index:7;pointer-events:none;opacity:0;transform:translateY(var(--ghost-y,0px));transition:opacity .16s ease}
+    .timeline.is-hovering .timeline-ghost{opacity:1}
+    .timeline-ghost::before{content:"";position:absolute;left:14px;top:-1px;width:19px;height:2px;border-radius:2px;background:rgba(255,255,255,.7);box-shadow:0 0 10px rgba(255,255,255,.35)}
+    .timeline-ghost b{position:absolute;left:44px;top:-8px;padding:2px 5px;border-radius:3px;background:rgba(6,8,8,.82);font:600 12px/1.3 "Albert Sans",sans-serif;letter-spacing:.06em;color:rgba(255,255,255,.88)}
+    .timeline-dots{position:absolute;inset:8px auto 26px 18px;width:11px}
+    .timeline-dot{position:absolute;left:1px;width:7px;height:7px;border-radius:50%;background:var(--dot);transform:translateY(-50%);opacity:.44;transition:opacity .2s,transform .2s,box-shadow .2s}
+    .timeline-dot.is-past{opacity:.9}
+    .timeline-dot.is-near{opacity:1;transform:translateY(-50%) scale(1.3)}
+    .timeline-dot.is-now{opacity:1;transform:translateY(-50%) scale(1.7);box-shadow:0 0 10px var(--dot)}
+    .timeline-milestone{position:absolute;z-index:3;left:-3px;width:15px;height:15px;border:1px solid rgba(255,255,255,.9);border-radius:50%;background:#090a0a;box-shadow:0 0 0 3px rgba(255,255,255,.06),0 0 13px rgba(255,255,255,.28);transform:translateY(-50%);transition:.25s ease;pointer-events:none}
+    .timeline-milestone::after{content:"";position:absolute;inset:4px;border-radius:50%;background:var(--milestone-color,#fff)}
+    .timeline-milestone.is-past{opacity:.72}.timeline-milestone.is-now{transform:translateY(-50%) scale(1.32);box-shadow:0 0 0 4px rgba(255,255,255,.09),0 0 18px var(--milestone-color,#fff)}
+    .timeline-marker{position:absolute;z-index:5;left:10px;top:calc(8px + var(--year-progress) - var(--year-track-trim));display:flex;align-items:center;gap:10px;transform:translateY(-50%);transition:top .12s linear}
+    .timeline.is-scrubbing .timeline-marker{transition:none}
+    .marker-ring{width:28px;height:28px;border:2px solid #fff;border-radius:50%;display:grid;place-items:center;background:rgba(4,5,5,.88);box-shadow:0 0 18px rgba(255,255,255,.18);transition:box-shadow .2s ease,scale .2s ease}
+    .timeline.is-scrubbing .marker-ring{scale:1.16;box-shadow:0 0 30px rgba(255,255,255,.45)}
+    .marker-ring::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--active-color,#fff);box-shadow:0 0 10px var(--active-color,#fff)}
+    .marker-year{position:absolute;right:40px;font:700 clamp(31px,3vw,55px)/1 "Barlow Condensed",sans-serif;white-space:nowrap;text-align:right;text-shadow:0 2px 10px #000}
+    .ticks{position:absolute;left:44px;top:8px;bottom:26px;right:0;pointer-events:none}
+    .tick{position:absolute;left:0;transform:translateY(-50%);display:flex;align-items:center;gap:9px;color:rgba(255,255,255,.46);font:400 13px/1 "Albert Sans",sans-serif}
+    .tick::before{content:"";width:8px;height:1px;background:rgba(255,255,255,.5)}
+    .tick.is-key{color:rgba(255,255,255,.86);font-weight:600}
+    body.is-booting *,body.is-booting *::before,body.is-booting *::after{transition:none!important;animation:none!important}
+    body.is-scrubbing .bubble{transition:transform .16s linear,width .16s linear,height .16s linear,opacity .16s linear}
+    body.is-scrubbing .current-winner-crest,body.is-scrubbing .chapter-title,body.is-scrubbing .chapter-copy{transition:none}
+
+    .special{position:absolute;z-index:18;left:0;right:0;top:104px;bottom:45px;display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:0;transform:scale(.96);transition:opacity .45s ease,transform .45s ease}
+    .special.is-visible{opacity:1;transform:none}
+    .milestone-panel{width:min(680px,94%);padding:28px 34px;border-top:1px solid rgba(255,255,255,.28);border-bottom:1px solid rgba(255,255,255,.28);background:linear-gradient(90deg,transparent,rgba(0,0,0,.68) 18%,rgba(0,0,0,.68) 82%,transparent);text-align:center}
+    .milestone-panel .year{color:#fff;font:600 18px/1 "Albert Sans",sans-serif;letter-spacing:.14em}
+    .milestone-panel h3{margin:9px auto 3px;max-width:660px;font:800 clamp(50px,5vw,90px)/.88 "Barlow Condensed",sans-serif;letter-spacing:.025em;text-transform:uppercase}
+    .milestone-panel h3.is-long{font-size:clamp(38px,4vw,68px)}
+    .milestone-panel .sub{font:400 25px/1 "Albert Sans",sans-serif;letter-spacing:.12em;text-transform:uppercase}
+    .gavel{width:76px;height:76px;margin:22px auto;display:grid;place-items:center}
+    .gavel img{width:76px;height:76px;object-fit:contain}
+    .pre-score{display:flex;justify-content:center;align-items:center;gap:42px}
+    .pre-score span{display:flex;align-items:center;gap:11px;color:var(--c);font:700 43px/1 "Albert Sans",sans-serif}
+    .pre-score .score-mark{width:46px;height:46px;flex:none;background:var(--mark) center/contain no-repeat}
+    .pre-score>i{height:50px;width:1px;background:rgba(255,255,255,.3)}
+    .milestone-panel p{margin:22px auto 0;max-width:520px;color:rgba(255,255,255,.67);font-size:14px;line-height:1.5}
+
+
+    @media (max-width:1100px){
+      .topbar{grid-template-columns:1fr auto}.stage{left:31%;right:10%}.story{width:27vw}.chapter-copy{font-size:14px}.bubble-name{font-size:9px}
+    }
+    @media (min-width:761px) and (max-height:850px){
+      .stage{top:48px;bottom:22px;left:29%;right:8%}
+      .stage-current{min-height:208px}
+      .stage-current .current-winners{min-height:174px}
+      .stage-current .current-winner{min-width:164px}
+      .stage-current .current-winner-crest{width:164px;height:164px;margin-bottom:6px}
+      .stage-current .current-winner-name{font-size:18px}
+      .stage-current .active-year{margin-top:7px;font-size:14px}
+      .story-current{min-height:260px}
+      .story-current .current-winners{min-height:220px;gap:14px}
+      .story-current .current-winner-crest{width:165px;height:190px}
+      .story-current .current-winner:only-child .current-winner-crest{width:220px;height:220px}
+      .story-current .current-winner-name{font-size:23px}
+      .story-current .active-year{font-size:16px}
+      .bubble-field{margin-top:0;min-height:300px}
+    }
+    @media (max-width:760px),(max-aspect-ratio:3/4){
+      .scroll-space{height:9800px}.scene{min-height:540px}
+      .backdrop{background-image:url("./img/backg-mobile.png");background-position:center;filter:none}.backdrop::after{display:none}.vignette{box-shadow:inset 0 0 56px 16px rgba(0,0,0,.82)}
+      .bubble{box-shadow:inset 0 0 14px rgba(0,0,0,.42);transition:transform .34s cubic-bezier(.2,.7,.2,1),width .26s ease,height .26s ease,opacity .24s ease}
+      .bubble.is-active{box-shadow:0 0 7px var(--bubble-color),inset 0 0 16px color-mix(in srgb,var(--bubble-color) 14%,black)}
+      .bubble-name,.bubble-count{text-shadow:0 1px 3px #000}
+      .current-winner-crest{filter:none}.confed-head{min-height:38px}.confed-head .confed-mark{width:38px;height:38px;filter:none}
+      .bubble-crest{transition:none}
+      .topbar{height:108px;margin:0 14px;grid-template-columns:minmax(0,1fr) auto;align-items:center;align-content:center;gap:8px}.title{gap:12px;white-space:nowrap;max-width:310px}.brand-name{font-size:14px}.brand-separator{height:27px}.brand-description{font-size:7px;line-height:1.65;letter-spacing:.28em}.mobile-filter{display:block;position:relative;justify-self:end;align-self:center}.mobile-filter select{height:27px;min-width:108px;padding:0 25px 0 10px;font-size:9px}.mobile-filter::after{right:10px;width:5px;height:5px}
+      .intro{left:20px;right:20px;top:47%;width:auto}.intro h2{font-size:clamp(59px,20vw,82px)}.intro p{font-size:14px;line-height:1.5}.scroll-cue{margin-top:25px}
+      .story{left:14px;right:48px;top:121px;bottom:12px;width:auto;justify-content:flex-start}.story-copy-wrap{max-width:none}.chapter-title{max-width:100%;font-size:clamp(34px,10.8vw,41px);line-height:.87}.chapter-copy{max-width:100%;font-size:11px;line-height:1.38;margin-top:9px}.story-scoreboard{margin-top:14px;grid-template-columns:minmax(0,1fr) 29px minmax(0,1fr);gap:0}.confed-card{padding:7px 6px 6px}.confed-head{gap:4px;min-height:24px}.confed-head img{width:23px;height:23px}.confed-name{font-size:8px;letter-spacing:.07em}.confed-region{font-size:5px;margin-top:2px;letter-spacing:.08em}.confed-total{gap:4px;margin:4px 0 5px}.confed-total strong{font-size:25px}.confed-total span{font-size:5px;letter-spacing:.08em}.confed-breakdown span{padding:5px 3px 0 0}.confed-breakdown span+span{padding-left:3px}.confed-breakdown small{font-size:4.5px;letter-spacing:0}.confed-breakdown b{font-size:10px}.versus span{width:27px;height:27px;font-size:10px}
+      .stage{left:8px;right:41px;top:clamp(300px,36svh,340px);bottom:54px}.active-year{font-size:11px}.current-winners{gap:22px;min-height:54px;margin-top:5px}.current-winner{min-width:74px}.current-winner-crest{width:34px;height:34px;margin-bottom:4px}.current-winner-name{max-width:90px;font-size:12px}.current-empty{max-width:270px;font-size:29px;line-height:.9}.stage-current{min-height:124px}.stage-current .current-winners{min-height:98px;margin-top:0;gap:20px}.stage-current .current-winner{min-width:92px}.stage-current .current-winner-crest{width:88px;height:88px;margin-bottom:4px}.stage-current .current-winner-name{font-size:12px}.stage-current .active-year{margin-top:5px;font-size:10px}
+      .scoreboard{height:57px;gap:9px}.score{grid-template-columns:27px auto;min-width:105px;gap:6px}.score:last-child{grid-template-columns:auto 27px}.score img{width:27px;height:27px}.score .continent{font-size:7px;letter-spacing:.1em}.score strong{font-size:26px}.score small{font-size:6px;margin-left:2px}.score-divider{height:37px}
+      .bubble-field{min-height:110px;margin-top:0}.bubble-crest{opacity:.09}.bubble.is-active .bubble-crest{opacity:.14}.bubble-name{font-size:6.5px}.bubble-count{font-size:8px;margin-top:2px}
+      .timeline{top:118px;right:5px;bottom:21px;width:40px}.timeline-track{left:12px;transition:opacity .4s ease}.timeline-fill{left:11px;transition:opacity .4s ease,box-shadow .4s ease}.timeline-dots{left:8px;transition:opacity .4s ease}.timeline-marker{left:-1px;gap:5px}.marker-ring{width:27px;height:27px;transition:opacity .4s ease,box-shadow .4s ease,scale .2s ease}.marker-year{right:34px;top:2px;font-size:22px}.ticks{display:none}
+      .timeline-hit{left:-6px;right:-5px}.timeline-ghost::before{left:4px;width:15px}.timeline-ghost b{display:none}
+      .timeline.is-context-muted .timeline-track{opacity:.1}
+      .timeline.is-context-muted .timeline-fill{opacity:.1;box-shadow:none}
+      .timeline.is-context-muted .timeline-dots{opacity:.12}
+      .timeline.is-context-muted .marker-ring{opacity:.28;box-shadow:none}
+      .timeline.is-context-muted .marker-year{opacity:1}
+      .special{left:0;right:0;top:150px;bottom:70px}.milestone-panel{width:min(680px,calc(100% - 28px));padding:20px 8px}.milestone-panel h3{font-size:52px}.milestone-panel h3.is-long{font-size:36px}.milestone-panel .sub{font-size:16px}.gavel{width:62px;height:62px;margin:16px auto}.gavel img{width:62px;height:62px}.pre-score{gap:18px}.pre-score span{font-size:31px;gap:6px}.pre-score .score-mark{width:33px;height:33px}.milestone-panel p{font-size:11px;margin-top:15px}
+      .story-scoreboard{margin-top:20px}
+      .stage-scoreboard{width:min(286px,100%);margin:0 auto 12px}
+      .story-current{min-height:134px;margin-top:14px}
+      .story-current .current-winners{min-height:126px;gap:10px}
+      .story-current .current-winner{min-width:0}
+      .story-current .current-winner-crest{width:100px;height:106px;margin-bottom:5px}
+      .story-current .current-winner:only-child .current-winner-crest{width:124px;height:124px}
+      .story-current .current-winner-name{font-size:14px}
+      .story-current .active-year{display:none}
+      .story.is-visible~.stage{top:clamp(418px,50svh,470px)}
+      .stage-current{padding-top:6px}
+    }
+    @media (max-width:360px){
+      .title{max-width:285px;gap:10px}.brand-name{font-size:13px}.brand-description{font-size:6.5px;letter-spacing:.22em}
+      .topbar{gap:6px}.mobile-filter select{min-width:94px;padding:0 22px 0 8px;font-size:8.5px}.mobile-filter::after{right:8px}
+      .stage-scoreboard{width:min(262px,100%)}
+      .story{right:49px}.chapter-title{font-size:34px}.chapter-copy{font-size:10px}
+      .stage{right:44px;top:clamp(292px,35svh,326px)}
+    }
+    @media (max-width:760px) and (max-height:680px){
+      .story{top:113px;bottom:8px}.chapter-title{font-size:30px}.chapter-copy{font-size:9px;line-height:1.3;margin-top:7px}.story-scoreboard{margin-top:7px}.confed-card{padding-top:5px;padding-bottom:5px}.confed-head{min-height:26px}.confed-head .confed-mark{width:26px;height:26px}.confed-total{margin:2px 0 4px}.confed-total strong{font-size:21px}.confed-breakdown span{padding-top:3px}.story-current{min-height:126px;margin-top:6px}.story-current .current-winners{min-height:103px}.story-current .current-winner-crest{width:82px;height:85px}.story-current .current-winner:only-child .current-winner-crest{width:104px;height:104px}.story-current .current-winner-name{font-size:12px}.story-current .active-year{font-size:10px;margin-top:3px}
+      .stage{top:258px;bottom:42px}.story.is-visible~.stage{top:305px}.scoreboard{height:47px}.stage-current{min-height:105px}.stage-current .current-winners{min-height:82px}.stage-current .current-winner-crest{width:72px;height:72px}.bubble-field{min-height:75px}
+      .story-scoreboard{height:50px;margin-top:12px;padding-top:8px}
+      .story.is-visible~.stage{top:360px}.stage-current{padding-top:5px}
+    }
+    @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  </style>
+</head>
+<body class="is-booting">
+  <div class="scroll-space" id="scrollSpace">
+    <main class="scene" aria-label="FIFA champions historical scrollytelling">
+      <div class="backdrop" aria-hidden="true"></div><div class="vignette" aria-hidden="true"></div>
+      <header class="topbar">
+        <h1 class="title" aria-label="Bosman Effect — FIFA World Champions by Continent"><span class="brand-name"><b id="brandTop">Bosman</b><b id="brandBottom">Effect</b></span><span class="brand-separator" aria-hidden="true"></span><span class="brand-description">FIFA World Champions<br>by Continent</span></h1>
+        <label class="mobile-filter"><select id="mobileFilterSelect" aria-label="Competition filter"><option value="all">All</option><option value="Club">Clubs</option><option value="Selección">National teams</option></select></label>
+      </header>
+
+      <section class="intro" id="intro">
+        <div class="intro-index"><i aria-hidden="true"></i></div>
+        <h2>A century of champions</h2>
+        <p>Travel through every title and watch the balance of footballing power shift between South America and Europe.</p>
+        <div class="scroll-cue"><span class="mouse" aria-hidden="true"></span><span>Scroll to travel<br>through time</span></div>
+      </section>
+
+      <aside class="story" id="story" aria-live="polite">
+        <div class="story-copy-wrap">
+          <h2 class="chapter-title" id="chapterTitle"></h2>
+          <p class="chapter-copy" id="chapterCopy"></p>
+          <div class="current stage-current story-current">
+            <div class="current-winners" id="currentWinners" aria-live="polite"></div>
+            <span class="active-year" id="activeYear">1930</span>
+          </div>
+        </div>
+      </aside>
+
+      <section class="stage is-intro-hidden" id="stage">
+        <div class="story-scoreboard stage-scoreboard" aria-label="Accumulated titles by confederation">
+          <article class="confed-card" style="--score-color:var(--sa)">
+            <div class="confed-head"><i class="confed-mark" style="--mark:url('./img/conmebol-logo.png')" aria-hidden="true"></i><div><span class="confed-name">CONMEBOL</span><small class="confed-region">South America</small></div></div>
+            <div class="confed-total"><strong id="saScore">01</strong><span>Total<br>titles</span></div>
+            <div class="confed-breakdown"><span><small>Clubs</small><b id="saClubScore">00</b></span><span><small>National</small><b id="saNationalScore">01</b></span></div>
+          </article>
+          <div class="versus" aria-hidden="true"><span>VS</span></div>
+          <article class="confed-card" style="--score-color:var(--eu)">
+            <div class="confed-head"><i class="confed-mark" style="--mark:url('./img/uefa-logo.png')" aria-hidden="true"></i><div><span class="confed-name">UEFA</span><small class="confed-region">Europe</small></div></div>
+            <div class="confed-total"><strong id="euScore">00</strong><span>Total<br>titles</span></div>
+            <div class="confed-breakdown"><span><small>Clubs</small><b id="euClubScore">00</b></span><span><small>National</small><b id="euNationalScore">00</b></span></div>
+          </article>
+        </div>
+        <div class="bubble-field" id="bubbleField" aria-label="Champions sized by accumulated titles"></div>
+      </section>
+
+      <section class="special" id="milestoneSpecial" aria-live="polite" aria-label="Historical milestone">
+        <div class="milestone-panel" id="milestonePanel">
+          <span class="year" id="milestoneYear"></span>
+          <h3 id="milestoneTitle"></h3>
+          <div class="sub" id="milestoneSub"></div>
+          <div class="gavel"><img id="milestoneIcon" src="hammer.png" alt=""></div>
+          <div class="pre-score"><span style="--c:var(--sa)"><i class="score-mark" style="--mark:url('./img/conmebol-logo.png')" aria-hidden="true"></i><b id="milestoneSa"></b></span><i></i><span style="--c:var(--eu)"><b id="milestoneEu"></b><i class="score-mark" style="--mark:url('./img/uefa-logo.png')" aria-hidden="true"></i></span></div>
+          <p id="milestoneDetail"></p>
+        </div>
+      </section>
+
+      <aside class="timeline" aria-label="Timeline from 1930 to 2026">
+        <div class="timeline-track"></div><div class="timeline-fill"></div><div class="timeline-dots" id="timelineDots"></div>
+        <div class="timeline-ghost" id="timelineGhost"><b id="timelineGhostYear">1930</b></div>
+        <div class="timeline-marker" id="timelineMarker"><span class="marker-ring"></span><strong class="marker-year" id="markerYear">1930</strong></div>
+        <div class="timeline-hit" id="timelineHit" role="slider" tabindex="0" aria-label="Scrub the timeline" aria-valuemin="1930" aria-valuemax="2026" aria-valuenow="1930"></div>
+        <div class="ticks" id="ticks"></div>
+      </aside>
+    </main>
+  </div>
+
+  <script>
+    const SA="#34dd62", EU="#4aa8ff", START=1930, END=2026, INTRO_SCROLL=.008;
+    const RAW=[
+      [1960,"Real Madrid","Europa","Club"],[1961,"Peñarol","América","Club"],[1962,"Santos","América","Club"],[1963,"Santos","América","Club"],[1964,"Inter Milan","Europa","Club"],[1965,"Inter Milan","Europa","Club"],[1966,"Peñarol","América","Club"],[1967,"Racing Club","América","Club"],[1968,"Estudiantes LP","América","Club"],[1969,"AC Milan","Europa","Club"],[1970,"Feyenoord","Europa","Club"],[1971,"Nacional","América","Club"],[1972,"Ajax","Europa","Club"],[1973,"Independiente","América","Club"],[1974,"Atlético Madrid","Europa","Club"],[1976,"Bayern Munich","Europa","Club"],[1977,"Boca Juniors","América","Club"],[1979,"Olimpia","América","Club"],[1980,"Nacional","América","Club"],[1981,"Flamengo","América","Club"],[1982,"Peñarol","América","Club"],[1983,"Grêmio","América","Club"],[1984,"Independiente","América","Club"],[1985,"Juventus","Europa","Club"],[1986,"River Plate","América","Club"],[1987,"Porto","Europa","Club"],[1988,"Nacional","América","Club"],[1989,"AC Milan","Europa","Club"],[1990,"AC Milan","Europa","Club"],[1991,"Red Star Belgrade","Europa","Club"],[1992,"São Paulo","América","Club"],[1993,"São Paulo","América","Club"],[1994,"Vélez Sarsfield","América","Club"],[1995,"Ajax","Europa","Club"],[1996,"Juventus","Europa","Club"],[1997,"Borussia Dortmund","Europa","Club"],[1998,"Real Madrid","Europa","Club"],[1999,"Manchester United","Europa","Club"],[2000,"Boca Juniors","América","Club"],[2001,"Bayern Munich","Europa","Club"],[2002,"Real Madrid","Europa","Club"],[2003,"Boca Juniors","América","Club"],[2004,"Porto","Europa","Club"],[2005,"São Paulo","América","Club"],[2006,"Internacional","América","Club"],[2007,"AC Milan","Europa","Club"],[2008,"Manchester United","Europa","Club"],[2009,"Barcelona","Europa","Club"],[2010,"Inter Milan","Europa","Club"],[2011,"Barcelona","Europa","Club"],[2012,"Corinthians","América","Club"],[2013,"Bayern Munich","Europa","Club"],[2014,"Real Madrid","Europa","Club"],[2015,"Barcelona","Europa","Club"],[2016,"Real Madrid","Europa","Club"],[2017,"Real Madrid","Europa","Club"],[2018,"Real Madrid","Europa","Club"],[2019,"Liverpool","Europa","Club"],[2020,"Bayern Munich","Europa","Club"],[2021,"Chelsea","Europa","Club"],[2022,"Real Madrid","Europa","Club"],[2023,"Manchester City","Europa","Club"],[2024,"Real Madrid","Europa","Club"],[2025,"Paris Saint-Germain","Europa","Club"],
+      [1930,"Uruguay","América","Selección"],[1934,"Italy","Europa","Selección"],[1938,"Italy","Europa","Selección"],[1950,"Uruguay","América","Selección"],[1954,"Germany","Europa","Selección"],[1958,"Brazil","América","Selección"],[1962,"Brazil","América","Selección"],[1966,"England","Europa","Selección"],[1970,"Brazil","América","Selección"],[1974,"Germany","Europa","Selección"],[1978,"Argentina","América","Selección"],[1982,"Italy","Europa","Selección"],[1986,"Argentina","América","Selección"],[1990,"Germany","Europa","Selección"],[1994,"Brazil","América","Selección"],[1998,"France","Europa","Selección"],[2002,"Brazil","América","Selección"],[2006,"Italy","Europa","Selección"],[2010,"Spain","Europa","Selección"],[2014,"Germany","Europa","Selección"],[2018,"France","Europa","Selección"],[2022,"Argentina","América","Selección"],[2026,"Spain","Europa","Selección"]
+    ].map(([y,c,cont,e])=>({y,c,cont,e}));
+    const chapters=[
+      {from:1930,to:1959,kicker:"The World Cup begins",title:"Football finds its world stage",copy:"National teams establish the first rhythm of the competition, with the balance moving back and forth across the Atlantic.",year:"1930",card:"First World Cup",detail:"Uruguay defeats Argentina in Montevideo and becomes the first world champion.",color:SA},
+      {from:1960,to:1994,kicker:"The intercontinental era",title:"South America builds the lead",copy:"Club football joins the timeline. Brazilian, Uruguayan and Argentine sides turn continental strength into a sustained historical advantage.",year:"1960",card:"First Intercontinental Cup",detail:"Real Madrid wins the inaugural edition, but South America will dominate much of the era that follows.",color:SA},
+      {from:1995,to:2008,kicker:"A pivotal moment",title:"The balance flips here",copy:"The Bosman ruling transforms squad building in Europe. Financial power and player mobility begin reshaping the competition.",year:"1995",card:"A new European era",detail:"European champions begin closing the seven-title deficit with remarkable speed.",color:"#fff"},
+      {from:2009,to:2023,kicker:"European dominance",title:"The gap becomes structural",copy:"From 2009 onward, European clubs win almost uninterruptedly while the all-time lead changes hands and keeps growing.",year:"2009",card:"The decisive acceleration",detail:"Barcelona begins a fifteen-year sequence broken only once by a South American club.",color:EU},
+      {from:2024,to:2026,kicker:"The present",title:"A global game, a new balance",copy:"A seven-title South American lead before Bosman has become a seventeen-title European advantage.",year:"2026",card:"The journey reaches today",detail:"Paris Saint-Germain adds the 2025 club crown before Spain extends Europe’s lead in 2026.",color:EU,showEvent:false}
+    ];
+    const milestones=[
+      {year:1930,title:"First World Cup",sub:"The journey begins",detail:"Uruguay defeats Argentina in Montevideo and becomes the first world champion.",color:SA,icon:"world.png",iconAlt:"World football",sa:"01",eu:"00"},
+      {year:1960,title:"First Intercontinental Cup",sub:"Clubs enter the story",detail:"Real Madrid wins the inaugural edition, but South America will dominate much of the era that follows.",color:SA,icon:"world.png",iconAlt:"World football",sa:"03",eu:"04"},
+      {year:1995,title:"Bosman",sub:"Ruling",detail:"Before the ruling, South America held a seven-title advantage. From this point, the balance begins to turn decisively toward Europe.",color:"#fff",icon:"hammer.png",iconAlt:"Gavel",sa:"28",eu:"21"},
+      {year:2009,title:"The decisive acceleration",sub:"Europe breaks away",detail:"Barcelona begins a fifteen-year sequence broken only once by a South American club.",color:EU,icon:"./img/uefa-logo.png",iconAlt:"UEFA",sa:"33",eu:"33"}
+    ];
+    const HIGHLIGHT_OFFSET=.55;
+    const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+    const els={space:$("#scrollSpace"),intro:$("#intro"),story:$("#story"),stage:$("#stage"),current:$(".stage-current"),special:$("#milestoneSpecial"),timeline:$(".timeline"),mobileFilter:$("#mobileFilterSelect"),year:$("#activeYear"),currentWinners:$("#currentWinners"),sa:$("#saScore"),eu:$("#euScore"),saClub:$("#saClubScore"),saNational:$("#saNationalScore"),euClub:$("#euClubScore"),euNational:$("#euNationalScore"),field:$("#bubbleField"),markerYear:$("#markerYear"),dots:$("#timelineDots"),ticks:$("#ticks"),chapterTitle:$("#chapterTitle"),chapterCopy:$("#chapterCopy"),milestonePanel:$("#milestonePanel"),milestoneYear:$("#milestoneYear"),milestoneTitle:$("#milestoneTitle"),milestoneSub:$("#milestoneSub"),milestoneIcon:$("#milestoneIcon"),milestoneSa:$("#milestoneSa"),milestoneEu:$("#milestoneEu"),milestoneDetail:$("#milestoneDetail"),hit:$("#timelineHit"),ghost:$("#timelineGhost"),ghostYear:$("#timelineGhostYear")};
+    let filter="all",scrollSteps=[],activeYear=START,activeTimelinePosition=START,activeMilestone=null,lastMoment="",introMode=null,bubbleEls=new Map(),raf=0;
+    let dotEls=[],milestoneEls=[],layoutCache=new Map(),fieldW=600,fieldH=330,maxScroll=1,lastWinnerKey=null;
+    const filtered=()=>filter==="all"?RAW:RAW.filter(d=>d.e===filter);
+    function buildScrollSteps(){
+      const championYears=[...new Set(filtered().map(d=>d.y))];
+      return [
+        ...championYears.map(year=>({year,position:year,milestone:null})),
+        ...milestones.map(milestone=>({year:milestone.year,position:Math.max(START,milestone.year-HIGHLIGHT_OFFSET),milestone}))
+      ].sort((a,b)=>a.position-b.position||(a.milestone?-1:1));
+    }
+    const pct=y=>(y-START)/(END-START)*100;
+    const pad=n=>String(n).padStart(2,"0");
+    const hash=s=>[...s].reduce((a,c)=>((a<<5)-a+c.charCodeAt(0))|0,0);
+    const NATIONAL_CRESTS={
+      Uruguay:"uruguay.png",Brazil:"brasil.png",Argentina:"argentina.png",
+      Italy:"italia.png",Germany:"alemania.png",England:"inglaterra.png",
+      France:"francia.png",Spain:"espana.png"
+    };
+    const CLUB_STEMS={
+      "Estudiantes LP":["estudiantes-lp","estudiantes-de-la-plata","estudiantes"],
+      "Inter Milan":["inter-milan","inter"],
+      "Internacional":["internacional","sc-internacional"],
+      "Racing Club":["racing-club","racing-avellaneda"],
+      "Red Star Belgrade":["red-star-belgrade","crvena-zvezda"],
+      "Santos":["santos-fc","santos"],
+      "Porto":["fc-porto","porto"],
+      "Barcelona":["fc-barcelona","barcelona"],
+      "Liverpool":["liverpool-fc","liverpool"],
+      "Paris Saint-Germain":["paris-saint-germain-psg","paris-saint-germain"],
+      "São Paulo":["sao-paulo"],"Grêmio":["gremio"],
+      "Vélez Sarsfield":["velez-sarsfield"],"Atlético Madrid":["atletico-madrid"]
+    };
+
+    const MQ_MOBILE=typeof matchMedia==="function"?matchMedia("(max-width:760px),(max-aspect-ratio:3/4)"):null;
+    const isMobile=()=>MQ_MOBILE?MQ_MOBILE.matches:innerWidth<=760;
+    const CREST_URL=new Map(),CREST_FIXED=new Map();
+
+    function slugify(value){
+      return value.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase()
+        .replace(/&/g,"and").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+    }
+    function crestCandidates(name,type){
+      if(type==="Selección"){
+        const stem=slugify(name);
+        return [
+          `./img/national-teams/${stem}-logo.svg`,
+          `./img/national-teams/${stem}_${stem}-national-team_football-logos_cc.svg`,
+          `./img/national-teams/${stem}-logo.png`,
+          `./img/national-teams/${NATIONAL_CRESTS[name]||stem+".png"}`
+        ];
+      }
+      const stems=[...new Set([slugify(name),...(CLUB_STEMS[name]||[])])];
+      return stems.flatMap(stem=>[
+        `./img/clubs/${stem}-logo.svg`,
+        `./img/clubs/${stem}-logo.png`
+      ]);
+    }
+    function normalizeCrest(img){
+      if(img.dataset.normalized==="true")return;
+      const origin=img.dataset.origin||img.src,ready=CREST_FIXED.get(origin);
+      if(ready!==undefined){img.dataset.normalized="true";if(ready&&img.src!==ready)img.src=ready;return}
+      const natW=img.naturalWidth,natH=img.naturalHeight;
+      const vector=/\.svg(\?|#|$)/i.test(origin);
+      // Un SVG sin width/height tiene tamaño intrínseco degenerado: recortarlo
+      // sobre esa rasterización lo deforma. Se deja tal cual.
+      if(!natW||!natH||(vector&&Math.max(natW,natH)<64)){img.dataset.normalized="true";CREST_FIXED.set(origin,"");return}
+      img.dataset.normalized="true";
+      try{
+        const SCAN=256;
+        const k=Math.min(1,SCAN/Math.max(natW,natH)),sw=Math.max(1,Math.round(natW*k)),sh=Math.max(1,Math.round(natH*k));
+        const scan=document.createElement("canvas"),sctx=scan.getContext("2d",{willReadFrequently:true});
+        scan.width=sw;scan.height=sh;sctx.drawImage(img,0,0,sw,sh);
+        const pixels=sctx.getImageData(0,0,sw,sh).data;
+        let minX=sw,minY=sh,maxX=-1,maxY=-1;
+        for(let y=0;y<sh;y++){const row=y*sw*4;for(let x=0;x<sw;x++){if(pixels[row+x*4+3]>4){if(x<minX)minX=x;if(x>maxX)maxX=x;if(y<minY)minY=y;if(y>maxY)maxY=y}}}
+        if(maxX<minX||maxY<minY){CREST_FIXED.set(origin,"");return}
+        const inv=1/k,margin=Math.ceil(inv);
+        const sx=Math.max(0,Math.floor(minX*inv)-margin),sy=Math.max(0,Math.floor(minY*inv)-margin);
+        const ex=Math.min(natW,Math.ceil((maxX+1)*inv)+margin),ey=Math.min(natH,Math.ceil((maxY+1)*inv)+margin);
+        const cw=ex-sx,ch=ey-sy;
+        if(cw<=0||ch<=0||cw*ch<natW*natH*.02){CREST_FIXED.set(origin,"");return}
+        // Todos ocupan su caja por completo. No se puede igualar el área dentro de
+        // un cuadrado sin recortar los escudos verticales, así que se iguala el
+        // encaje: el margen mínimo solo evita comerse el antialias del borde.
+        const box=Math.max(cw,ch)*1.02;
+        const cap=isMobile()?320:640;
+        const side=Math.round(vector?cap:Math.min(Math.max(box,1),cap)),z=side/box;
+        const output=document.createElement("canvas"),out=output.getContext("2d");output.width=output.height=side;
+        out.imageSmoothingQuality="high";
+        // Se escala la imagen entera y se encuadra el recorte: así un vector se
+        // rasteriza a la resolución final en vez de ampliarse desde su mapa de bits.
+        out.drawImage(img,(side-cw*z)/2-sx*z,(side-ch*z)/2-sy*z,natW*z,natH*z);
+        const url=output.toDataURL("image/png");
+        CREST_FIXED.set(origin,url);img.src=url;
+      }catch(error){CREST_FIXED.set(origin,"")}
+    }
+    function loadCrest(img,name,type){
+      const key=type+"|"+name,known=CREST_URL.get(key);
+      if(known===""){img.hidden=true;return}
+      if(known){
+        const fixed=CREST_FIXED.get(known);
+        img.hidden=false;img.onerror=null;img.dataset.origin=known;
+        if(fixed!==undefined){img.dataset.normalized="true";img.onload=null;img.src=fixed||known}
+        else{img.dataset.normalized="false";img.onload=()=>normalizeCrest(img);img.src=known}
+        return;
+      }
+      const candidates=crestCandidates(name,type);let index=0;
+      img.hidden=false;img.dataset.normalized="false";
+      img.onload=()=>{CREST_URL.set(key,img.dataset.origin);normalizeCrest(img)};
+      img.onerror=()=>{index++;img.dataset.normalized="false";if(index<candidates.length){img.dataset.origin=candidates[index];img.src=candidates[index]}else{CREST_URL.set(key,"");img.hidden=true}};
+      img.dataset.origin=candidates[0];img.src=candidates[0];
+    }
+
+    function makeTimeline(){
+      els.dots.innerHTML="";els.ticks.innerHTML="";dotEls=[];milestoneEls=[];
+      RAW.forEach(d=>{const dot=document.createElement("i");dot.className="timeline-dot";dot._y=d.y;dot._t=d.e;dot.style.cssText=`top:${pct(d.y)}%;--dot:${d.cont==="América"?SA:EU}`;els.dots.append(dot);dotEls.push(dot)});
+      milestones.forEach(m=>{const marker=document.createElement("i");marker.className="timeline-milestone";marker._y=m.year;marker.title=`Before ${m.year} — ${m.title}`;marker.style.cssText=`top:${pct(Math.max(START,m.year-HIGHLIGHT_OFFSET))}%;--milestone-color:${m.color}`;els.dots.append(marker);milestoneEls.push(marker)});
+      [1930,1960,1980,1995,2010,2026].forEach(y=>{const t=document.createElement("span");t.className="tick "+([1930,1960,1995,2026].includes(y)?"is-key":"");t.style.top=pct(y)+"%";t.textContent=y;els.ticks.append(t)});
+    }
+    function countsThrough(year){
+      const map=new Map();let sa=0,eu=0;
+      filtered().filter(d=>d.y<=year).forEach(d=>{d.cont==="América"?sa++:eu++;const key=d.cont+"|"+d.c;const v=map.get(key)||{name:d.c,cont:d.cont,type:d.e,count:0};v.count++;map.set(key,v)});
+      return {map:[...map.values()],sa,eu};
+    }
+    function confederationScoreThrough(year){
+      const score={sa:{total:0,club:0,national:0},eu:{total:0,club:0,national:0}};
+      RAW.filter(d=>d.y<=year).forEach(d=>{const side=d.cont==="América"?score.sa:score.eu;side.total++;d.e==="Club"?side.club++:side.national++});
+      return score;
+    }
+    function measureStage(){
+      const rect=els.field.getBoundingClientRect();
+      fieldW=rect.width||600;fieldH=rect.height||330;
+      maxScroll=Math.max(1,els.space.offsetHeight-innerHeight);
+      layoutCache.clear();
+    }
+    function layoutBubbles(data,cacheKey){
+      const cached=layoutCache.get(cacheKey);
+      if(cached)return cached;
+      const mobile=isMobile(),compactDesktop=!mobile&&innerHeight<=850,w=fieldW,h=fieldH;
+      const max=Math.max(1,...data.map(d=>d.count));
+      const groups={"América":data.filter(d=>d.cont==="América"),"Europa":data.filter(d=>d.cont==="Europa")};
+      const nodes=data.map(d=>{
+        const min=mobile?16:compactDesktop?34:38,maxR=mobile?31:compactDesktop?64:72,r=min+(Math.sqrt(d.count)-1)/(Math.sqrt(max)||1)*(maxR-min);
+        const seed=Math.abs(hash(d.name)),left=d.cont==="América",group=groups[d.cont],rank=group.indexOf(d),sparse=group.length<=5;
+        const yFraction=group.length===1 ? .40 : sparse ? .09+(rank/(group.length-1))*.82 : .04+((seed*7)%100)/100*.91;
+        const xVariation=sparse ? ((rank%2)-.5)*w*.08 : ((seed%101)/100-.5)*w*.18;
+        return {...d,r,x:w*(left ? .27 : .73)+xVariation,y:h*yFraction,anchorX:w*(left ? .27 : .73)+xVariation,anchorY:h*yFraction};
+      });
+      const bubbleGap=compactDesktop?8:4,passes=150,count=nodes.length;
+      for(let k=0;k<passes;k++){
+        for(let i=0;i<count;i++){const n=nodes[i];n.x+=(n.anchorX-n.x)*.018;n.y+=(n.anchorY-n.y)*.018;n.x=Math.max(n.r,Math.min(w-n.r,n.x));n.y=Math.max(n.r+18,Math.min(h-n.r,n.y))}
+        for(let i=0;i<count;i++){const a=nodes[i];
+          for(let j=i+1;j<count;j++){const b=nodes[j],dx=b.x-a.x,dy=b.y-a.y,min=a.r+b.r+bubbleGap,d2=dx*dx+dy*dy;
+            if(d2<min*min){const dist=Math.hypot(dx,dy)||1;if(dist<min){const push=(min-dist)/2,nx=dx/dist,ny=dy/dist;a.x-=nx*push;a.y-=ny*push;b.x+=nx*push;b.y+=ny*push}}}}
+      }
+      nodes.forEach(n=>{n.x=Math.round(n.x*10)/10;n.y=Math.round(n.y*10)/10});
+      if(layoutCache.size>220)layoutCache.clear();
+      layoutCache.set(cacheKey,nodes);
+      return nodes;
+    }
+    function drawBubbles(data,winners,cacheKey){
+      const nodes=layoutBubbles(data,cacheKey),needed=new Set(nodes.map(n=>n.cont+"|"+n.name)),winnerNames=new Set(winners.map(d=>d.cont+"|"+d.c));
+      bubbleEls.forEach((el,key)=>{
+        if(needed.has(key)){if(el._exit){clearTimeout(el._exit);el._exit=0}return}
+        if(el._exit)return;
+        el.style.opacity=0;el.style.setProperty("--bs",".3");
+        // Solo se retira si la entrada sigue apuntando a ESTE elemento: durante un
+        // barrido rápido la misma clave puede haberse recreado ya.
+        el._exit=setTimeout(()=>{el._exit=0;if(bubbleEls.get(key)===el){el.remove();bubbleEls.delete(key)}else el.remove()},360);
+      });
+      nodes.forEach(n=>{
+        const key=n.cont+"|"+n.name;let el=bubbleEls.get(key);
+        if(!el){
+          el=document.createElement("div");el.className="bubble";
+          el.innerHTML='<img class="bubble-crest" alt="" aria-hidden="true" decoding="async"><span class="bubble-name"></span><span class="bubble-count"></span>';
+          el.style.setProperty("--bubble-color",n.cont==="América"?SA:EU);
+          el.querySelector(".bubble-name").textContent=n.name;
+          el._count=null;
+          loadCrest(el.querySelector(".bubble-crest"),n.name,n.type);
+          els.field.append(el);bubbleEls.set(key,el);
+          requestAnimationFrame(()=>el.style.opacity=1);
+        }
+        const size=(Math.round(n.r*20)/10)+"px";
+        if(el._size!==size){el.style.width=el.style.height=size;el._size=size}
+        if(el._x!==n.x){el.style.setProperty("--bx",n.x+"px");el._x=n.x}
+        if(el._y!==n.y){el.style.setProperty("--by",n.y+"px");el._y=n.y}
+        if(el._count!==n.count){el.querySelector(".bubble-count").textContent=n.count;el._count=n.count}
+        el.classList.toggle("is-active",winnerNames.has(key));
+        if(el.style.opacity!=="1"){el.style.opacity=1;el.style.removeProperty("--bs")}
+      });
+    }
+    function drawCurrentWinners(winners){
+      const key=winners.map(w=>w.e+"|"+w.c).join(",");
+      if(key===lastWinnerKey)return;
+      lastWinnerKey=key;
+      els.currentWinners.innerHTML="";
+      const empty=!winners.length;els.current.classList.toggle("is-empty",empty);els.current.setAttribute("aria-hidden",String(empty));
+      if(empty)return;
+      winners.forEach(winner=>{
+        const item=document.createElement("article"),crest=document.createElement("img"),name=document.createElement("span");
+        item.className="current-winner";crest.className="current-winner-crest";crest.alt=`${winner.c} crest`;name.className="current-winner-name";name.textContent=winner.c;
+        item.append(crest,name);els.currentWinners.append(item);loadCrest(crest,winner.c,winner.e);
+      });
+    }
+    function showMilestone(milestone){
+      if(!milestone)return;
+      els.milestonePanel.style.setProperty("--milestone-color",milestone.color);
+      els.milestoneYear.textContent=milestone.year;els.milestoneTitle.textContent=milestone.title;els.milestoneTitle.classList.toggle("is-long",milestone.title.length>19);els.milestoneSub.textContent=milestone.sub;
+      if(els.milestoneIcon.getAttribute("src")!==milestone.icon)els.milestoneIcon.src=milestone.icon;
+      els.milestoneIcon.alt=milestone.iconAlt;els.milestoneSa.textContent=milestone.sa;els.milestoneEu.textContent=milestone.eu;els.milestoneDetail.textContent=milestone.detail;
+      els.special.setAttribute("aria-label",`${milestone.year}: ${milestone.title}`);
+    }
+    function showChapter(year){
+      const ch=chapters.find(c=>year>=c.from&&year<=c.to)||chapters.at(-1);
+      if(els.story._ch===ch)return;
+      els.story._ch=ch;els.story.style.setProperty("--chapter-color",ch.color);els.chapterTitle.textContent=ch.title;els.chapterCopy.textContent=ch.copy;
+    }
+    function render(year,force=false,intro=false,milestone=null,timelinePosition=year){
+      const moment=intro?"intro":milestone?`highlight-${year}`:`champion-${year}`;
+      if(moment===lastMoment&&!force)return;lastMoment=moment;activeYear=year;activeTimelinePosition=timelinePosition;activeMilestone=milestone;introMode=intro;
+      const source=filtered(),dataYear=milestone?year-1:year,winners=milestone?[]:source.filter(d=>d.y===year),counts=countsThrough(dataYear),confedScore=confederationScoreThrough(dataYear),progress=Math.max(0,Math.min(1,(timelinePosition-START)/(END-START)));
+      const tl=els.timeline.style;
+      tl.setProperty("--year-progress",(progress*100)+"%");tl.setProperty("--year-track-trim",(34*progress)+"px");tl.setProperty("--active-color",milestone?milestone.color:winners[0]?(winners[0].cont==="América"?SA:EU):"#fff");
+      els.intro.classList.toggle("is-hidden",!intro);els.story.classList.toggle("is-visible",!intro&&!milestone);els.special.classList.toggle("is-visible",Boolean(milestone));els.stage.classList.toggle("is-intro-hidden",intro);els.stage.classList.toggle("is-muted",Boolean(milestone));els.timeline.classList.toggle("is-context-muted",intro||Boolean(milestone));els.stage.style.opacity=milestone?".12":"1";showMilestone(milestone);
+      els.year.textContent=year;els.markerYear.textContent=year;els.sa.textContent=pad(confedScore.sa.total);els.eu.textContent=pad(confedScore.eu.total);els.saClub.textContent=pad(confedScore.sa.club);els.saNational.textContent=pad(confedScore.sa.national);els.euClub.textContent=pad(confedScore.eu.club);els.euNational.textContent=pad(confedScore.eu.national);
+      drawCurrentWinners(winners);
+      drawBubbles(counts.map,winners,filter+"|"+dataYear);showChapter(year);
+      for(let i=0;i<dotEls.length;i++){const d=dotEls[i],valid=filter==="all"||d._t===filter;if(d.hidden!==!valid)d.hidden=!valid;const now=valid&&!milestone&&d._y===year;d.classList.toggle("is-past",valid&&d._y<year);d.classList.toggle("is-near",valid&&!now&&Math.abs(d._y-timelinePosition)<=2);d.classList.toggle("is-now",now)}
+      els.hit.setAttribute("aria-valuenow",year);
+      for(let i=0;i<milestoneEls.length;i++){const d=milestoneEls[i];d.classList.toggle("is-past",d._y<year||!milestone&&d._y===year);d.classList.toggle("is-now",Boolean(milestone)&&d._y===year)}
+    }
+    function renderFromScroll(){const p=Math.max(0,Math.min(1,scrollY/maxScroll)),intro=p<INTRO_SCROLL,dataProgress=intro?0:(p-INTRO_SCROLL)/(1-INTRO_SCROLL),stepIndex=Math.min(scrollSteps.length-1,Math.floor(dataProgress*scrollSteps.length)),step=scrollSteps[stepIndex]||scrollSteps[0];render(step.year,false,intro,intro?null:step.milestone,step.position)}
+    function onScroll(){if(raf)return;raf=requestAnimationFrame(()=>{raf=0;renderFromScroll()})}
+    function setFilter(next){filter=next;els.mobileFilter.value=filter;bubbleEls.forEach(el=>{if(el._exit)clearTimeout(el._exit);el.remove()});bubbleEls.clear();els.field.replaceChildren();layoutCache.clear();lastWinnerKey=null;scrollSteps=buildScrollSteps();lastMoment="";renderFromScroll();warmLayouts()}
+    const TRACK_SPAN=END-START;
+    let scrubPointer=null,scrubStartY=0,scrubbing=false,scrubRaf=0,pendingY=null,flyRaf=0;
+    function trackFraction(clientY){const r=els.hit.getBoundingClientRect();return r.height?Math.max(0,Math.min(1,(clientY-r.top)/r.height)):0}
+    function nearestStep(position){let best=0,bestGap=Infinity;for(let i=0;i<scrollSteps.length;i++){const gap=Math.abs(scrollSteps[i].position-position);if(gap<bestGap){bestGap=gap;best=i}}return best}
+    function scrollForStep(index){return maxScroll*(INTRO_SCROLL+(1-INTRO_SCROLL)*((index+.5)/scrollSteps.length))}
+    function stopFly(){if(flyRaf){cancelAnimationFrame(flyRaf);flyRaf=0}}
+    // Vuelo hasta el destino: el scroll se recorre en el tiempo, así que el render
+    // va pasando por cada año intermedio en lugar de saltar.
+    function flyTo(target){
+      stopFly();
+      const from=scrollY,delta=target-from;
+      if(Math.abs(delta)<2){scrollTo(0,target);return}
+      const reach=Math.abs(delta)/Math.max(1,maxScroll),duration=Math.min(1050,300+reach*1500),t0=performance.now();
+      const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+      const tick=now=>{const t=Math.min(1,(now-t0)/duration);scrollTo(0,from+delta*ease(t));flyRaf=t<1?requestAnimationFrame(tick):0};
+      flyRaf=requestAnimationFrame(tick);
+    }
+    function moveGhost(clientY){
+      const r=els.hit.getBoundingClientRect(),f=trackFraction(clientY);
+      els.ghost.style.setProperty("--ghost-y",(f*r.height)+"px");
+      const step=scrollSteps[nearestStep(START+f*TRACK_SPAN)];
+      const label=step?step.year:Math.round(START+f*TRACK_SPAN);
+      if(els.ghostYear._v!==label){els.ghostYear.textContent=label;els.ghostYear._v=label}
+      els.timeline.classList.add("is-hovering");
+    }
+    function setScrubbing(on){
+      if(scrubbing===on)return;scrubbing=on;
+      els.timeline.classList.toggle("is-scrubbing",on);document.body.classList.toggle("is-scrubbing",on);
+    }
+    function scrubTo(clientY){
+      pendingY=clientY;
+      if(scrubRaf)return;
+      scrubRaf=requestAnimationFrame(()=>{scrubRaf=0;if(pendingY===null)return;const y=pendingY;pendingY=null;scrollTo(0,scrollForStep(nearestStep(START+trackFraction(y)*TRACK_SPAN)));moveGhost(y)});
+    }
+    els.hit.addEventListener("pointerdown",event=>{
+      stopFly();scrubPointer=event.pointerId;scrubStartY=event.clientY;
+      els.timeline.classList.add("is-hovering");moveGhost(event.clientY);
+      try{els.hit.setPointerCapture(event.pointerId)}catch(error){}
+      event.preventDefault();
+    });
+    els.hit.addEventListener("pointermove",event=>{
+      if(scrubPointer===null){if(event.pointerType!=="touch")moveGhost(event.clientY);return}
+      if(event.pointerId!==scrubPointer)return;
+      if(!scrubbing&&Math.abs(event.clientY-scrubStartY)<4)return;
+      setScrubbing(true);scrubTo(event.clientY);
+    });
+    function endScrub(event){
+      if(scrubPointer===null||event.pointerId!==scrubPointer)return;
+      scrubPointer=null;pendingY=null;
+      try{els.hit.releasePointerCapture(event.pointerId)}catch(error){}
+      if(!scrubbing)flyTo(scrollForStep(nearestStep(START+trackFraction(event.clientY)*TRACK_SPAN)));
+      setScrubbing(false);
+      if(event.pointerType==="touch")els.timeline.classList.remove("is-hovering");
+    }
+    els.hit.addEventListener("pointerup",endScrub);
+    els.hit.addEventListener("pointercancel",endScrub);
+    els.hit.addEventListener("pointerleave",()=>{if(scrubPointer===null)els.timeline.classList.remove("is-hovering")});
+    addEventListener("wheel",stopFly,{passive:true});
+    addEventListener("touchstart",event=>{if(scrubPointer===null)stopFly()},{passive:true});
+    els.mobileFilter.addEventListener("change",()=>setFilter(els.mobileFilter.value));
+    addEventListener("scroll",onScroll,{passive:true});
+    let resizeTimer=0;
+    function handleResize(){clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{measureStage();fitBrand();lastMoment="";render(activeYear,true,introMode,activeMilestone,activeTimelinePosition);warmLayouts()},140)}
+    addEventListener("resize",handleResize,{passive:true});
+    addEventListener("orientationchange",handleResize,{passive:true});
+    addEventListener("keydown",e=>{const step=maxScroll/scrollSteps.length;if(["ArrowDown","PageDown","ArrowRight"].includes(e.key)){e.preventDefault();scrollBy({top:e.key==="PageDown"?step*5:step,behavior:"smooth"})}if(["ArrowUp","PageUp","ArrowLeft"].includes(e.key)){e.preventDefault();scrollBy({top:e.key==="PageUp"?-step*5:-step,behavior:"smooth"})}if(e.key==="Home"){e.preventDefault();scrollTo({top:0,behavior:"smooth"})}if(e.key==="End"){e.preventDefault();scrollTo({top:els.space.offsetHeight,behavior:"smooth"})}});
+    const idleRun=window.requestIdleCallback||(cb=>setTimeout(()=>cb({timeRemaining:()=>8}),80));
+    function warmLayouts(){
+      const owner=filter,years=[...new Set(filtered().map(d=>d.y))];let i=0;
+      const step=deadline=>{
+        if(filter!==owner)return;
+        while(i<years.length&&(!deadline.timeRemaining||deadline.timeRemaining()>5)){
+          const y=years[i++],key=owner+"|"+y;
+          if(!layoutCache.has(key))layoutBubbles(countsThrough(y).map,key);
+        }
+        if(i<years.length&&filter===owner)idleRun(step);
+      };
+      idleRun(step);
+    }
+    // "EFFECT" tiene letras mas estrechas que "BOSMAN": se mide el ancho real de
+    // cada palabra y se sube el cuerpo de la segunda hasta igualarlas.
+    const brandTop=$("#brandTop"),brandBottom=$("#brandBottom"),BRAND_BIAS=1.07;
+    function fitBrand(){
+      if(!brandTop||!brandBottom)return;
+      brandBottom.style.fontSize="";
+      const tracking=parseFloat(getComputedStyle(brandTop).letterSpacing)||0;
+      const anchoTop=brandTop.getBoundingClientRect().width-tracking;
+      const anchoBottom=brandBottom.getBoundingClientRect().width-tracking;
+      if(anchoTop<=0||anchoBottom<=0)return;
+      const cuerpo=parseFloat(getComputedStyle(brandBottom).fontSize);
+      brandBottom.style.fontSize=(cuerpo*anchoTop/anchoBottom*BRAND_BIAS).toFixed(2)+"px";
+    }
+    if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitBrand).catch(()=>{});
+    measureStage();scrollSteps=buildScrollSteps();makeTimeline();render(START,true,true);onScroll();warmLayouts();fitBrand();
+    requestAnimationFrame(()=>requestAnimationFrame(()=>document.body.classList.remove("is-booting")));
+    setTimeout(()=>document.body.classList.remove("is-booting"),700);
+    addEventListener("load",()=>{measureStage();lastMoment="";renderFromScroll();warmLayouts()},{once:true});
+  </script>
+</body>
+</html>
