@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#050606">
+<meta name="description" content="La sentencia de 1995 transformó el mercado de fichajes europeo, derribó barreras para los futbolistas comunitarios y cambió para siempre la composición de las plantillas del fútbol español.">
+<meta name="author" content="Guillermo J. Moreno">
+<title>De tres extranjeros a un fútbol sin fronteras | Kiricocho</title>
+<link rel="icon" href="../kiricocho-svg/05-sello/favicon.ico" sizes="any">
+<link rel="icon" href="../kiricocho-svg/05-sello/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..600&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Papel: donde se lee */
+  --bg:#FFFFFF;
+  --fg:#000000;
+  --fg-2:rgba(0,0,0,.72);
+  --fg-3:rgba(0,0,0,.56);
+  --line:rgba(0,0,0,.13);
+  --line-2:rgba(0,0,0,.3);
+  --ink:#151515;            /* el texto del artículo */
+  /* Pizarra: la portada y lo que se juega */
+  --pizarra:#050606;
+  --tiza:#F1F4EE;
+  --rojo:#BE1214;
+  --rojo-2:#D51B1E;
+  --sa:#34DD62;
+  --eu:#4AA8FF;
+  --sans:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --serif:"Newsreader",Georgia,"Times New Roman",serif;
+  --max:1320px;
+  --gut:32px;
+  --top-h:76px;
+  --bar-h:0px;
+  /* Rejilla de lectura: índice | texto | notas al margen */
+  --cols:minmax(0,680px);
+  --colgap:0px;
+  --text-col:1;
+  --head-col:1;
+}
+@media (min-width:1000px){:root{--cols:minmax(0,680px) 200px;--colgap:56px;--head-col:1/-1}}
+@media (min-width:1280px){:root{--cols:200px minmax(0,680px) 220px;--text-col:2;--head-col:2/-1}}
+/* Las superficies de pizarra cambian tinta por tiza */
+.a-hero,.ncard,.top:not(.light),.fbar:not(.light){
+  --bg:var(--pizarra);
+  --fg:var(--tiza);
+  --fg-2:rgba(241,244,238,.76);
+  --fg-3:rgba(241,244,238,.56);
+  --line:rgba(241,244,238,.16);
+  --line-2:rgba(241,244,238,.32);
+  color:var(--fg);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{background:linear-gradient(180deg,var(--pizarra) 0 50%,#FFFFFF 50% 100%);-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:calc(var(--top-h) + 28px)}
+body{margin:0;color:var(--fg);font:400 17px/1.5 var(--sans);font-stretch:100%;padding-bottom:var(--bar-h)}
+.a-hero,.ncard,.top,.fbar{-webkit-font-smoothing:antialiased}
+h1,h2,h3{margin:0;font-weight:800;font-stretch:62%;line-height:.94;letter-spacing:-.004em;text-wrap:balance}
+p{margin:0}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--fg);outline-offset:3px}
+[hidden]{display:none!important}
+.skip{position:absolute;left:-999px;top:8px;z-index:100;background:#fff;color:#000;padding:10px 14px;border-radius:3px}
+.skip:focus{left:12px}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 max(var(--gut),env(safe-area-inset-right,0px)) 0 max(var(--gut),env(safe-area-inset-left,0px))}
+.ico{flex:none;width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- Botones ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:46px;padding:0 18px;border-radius:3px;border:2px solid transparent;background:none;font:700 16px/1 var(--sans);text-decoration:none;cursor:pointer;transition:background-color .15s,border-color .15s,color .15s}
+.btn-red{background:var(--rojo);color:#fff}
+.btn-red:hover{background:var(--rojo-2)}
+.btn-line{border-color:var(--line-2);color:var(--fg)}
+.btn-line:hover{border-color:var(--fg)}
+
+/* ---------- Cabecera: transparente sobre la portada, blanca sobre el papel ---------- */
+.top{position:fixed;inset:0 0 auto 0;z-index:40;padding-top:env(safe-area-inset-top,0px);transition:background-color .3s ease,box-shadow .3s ease}
+.top.solid{background:rgba(5,6,6,.88);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--line)}
+.top.light{background:#fff;-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:0 1px 0 var(--line)}
+.top-in{max-width:var(--max);margin:0 auto;padding:0 var(--gut);height:var(--top-h);display:flex;align-items:center;gap:40px}
+.brand{display:flex;align-items:center;flex:none;height:60px;color:var(--fg);text-decoration:none}
+.logo{display:block;height:100%;width:auto}
+.logo-negro{display:none}
+.top.light .logo-claro{display:none}
+.top.light .logo-negro{display:block}
+.wordmark{display:none;font:900 30px/1 var(--sans);font-stretch:62%;letter-spacing:.01em;text-transform:uppercase}
+.brand.no-logo .logo{display:none!important}
+.brand.no-logo .wordmark{display:block}
+.nav{display:flex;gap:28px}
+.nav a{padding:8px 0;color:var(--fg-2);font-weight:600;font-size:16px;text-decoration:none;transition:color .3s}
+.nav a:hover{color:var(--fg)}
+.top-actions{margin-left:auto;display:flex;align-items:center;gap:12px}
+/* Progreso de lectura: una línea roja bajo la cabecera */
+.progress{position:absolute;left:0;right:0;bottom:-3px;height:3px;overflow:hidden;pointer-events:none}
+.progress i{display:block;width:100%;height:100%;background:var(--rojo);transform:scaleX(0);transform-origin:0 50%}
+
+/* La misma historia, en dos formatos */
+.fswitch{display:inline-flex;gap:2px;padding:3px;border:1.5px solid var(--line-2);border-radius:4px;transition:border-color .3s}
+.fswitch>*{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:36px;padding:0 13px;border-radius:2px;color:var(--fg-2);font:700 14px/1 var(--sans);text-decoration:none;white-space:nowrap;transition:background-color .15s,color .15s}
+.fswitch .ico{width:17px;height:17px}
+.fswitch [aria-current]{background:var(--fg);color:var(--bg)}
+.fswitch a:hover{background:color-mix(in srgb,var(--fg) 10%,transparent);color:var(--fg)}
+.fswitch .i-sa{stroke:#1FA84A}
+.fswitch .i-eu{stroke:#2F86DE}
+.top:not(.light) .fswitch .i-sa,.fbar:not(.light) .fswitch .i-sa{stroke:var(--sa)}
+.top:not(.light) .fswitch .i-eu,.fbar:not(.light) .fswitch .i-eu{stroke:var(--eu)}
+
+/* ---------- Portada: se queda quieta y el papel sube por encima ---------- */
+.a-hero{position:sticky;top:var(--stick,0px);z-index:0;isolation:isolate;overflow:hidden;background:var(--pizarra)}
+.a-hero::before{content:"";position:absolute;inset:0;z-index:-2;background:url("img/backg.png") 62% 30%/cover no-repeat;opacity:.55;filter:saturate(.7)}
+.a-hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(5,6,6,.72) 0%,rgba(5,6,6,.22) 30%,rgba(5,6,6,.8) 64%,var(--pizarra) 100%),linear-gradient(90deg,rgba(5,6,6,.82) 0%,rgba(5,6,6,.25) 78%)}
+.hero-dim{position:absolute;inset:0;z-index:5;background:#000;opacity:0;pointer-events:none}
+.a-hero-in{max-width:var(--max);min-height:min(940px,94svh);margin:0 auto;padding:calc(var(--top-h) + env(safe-area-inset-top,0px) + 56px) var(--gut) 64px;display:grid;grid-template-columns:var(--cols);column-gap:var(--colgap);justify-content:center;align-content:end}
+.a-head{grid-column:var(--head-col);max-width:980px}
+.kicker{display:flex;flex-wrap:wrap;align-items:center;gap:6px 20px;margin-bottom:24px;color:var(--fg-2);font-size:15px}
+.kicker a{text-decoration:none}
+.kicker a:hover{color:var(--fg);text-decoration:underline;text-underline-offset:4px}
+.j-badge{display:inline-flex;align-items:center;gap:9px;color:var(--fg);font-weight:700;font-stretch:84%;font-size:16px}
+.j-badge::before{content:"";width:10px;height:10px;border-radius:50%;background:linear-gradient(90deg,var(--sa) 50%,var(--eu) 50%)}
+.a-hero h1{font-size:clamp(46px,5.5vw,92px);line-height:.92}
+.h-tail{display:block;color:rgba(241,244,238,.6)}
+.a-dek{max-width:31em;margin-top:24px;color:var(--fg-2);font:italic 400 24px/1.4 var(--serif)}
+.a-by{display:flex;align-items:center;gap:14px}
+.a-hero .a-by{margin-top:30px}
+.avatar{display:grid;place-items:center;flex:none;width:46px;height:46px;border-radius:50%;background:var(--fg);color:var(--bg);font-weight:800;font-stretch:62%;font-size:20px;letter-spacing:.01em}
+.by-name{display:block;font-size:16px;font-weight:600}
+.by-meta{display:block;color:var(--fg-3);font-size:14px}
+
+/* ---------- El papel ---------- */
+.sheet{position:relative;z-index:1;background:var(--bg)}
+.read{max-width:var(--max);margin:0 auto;padding:80px var(--gut) 0;display:grid;grid-template-columns:var(--cols);column-gap:var(--colgap);justify-content:center;align-items:start}
+.text{grid-column:var(--text-col);grid-row:1;min-width:0}
+.prose{color:var(--ink);font:400 21px/1.62 var(--serif);font-optical-sizing:auto;font-kerning:normal}
+.prose p{margin:0 0 1.05em;text-wrap:pretty;hanging-punctuation:first}
+/* Capitular */
+.lede::first-letter{float:left;margin:.1em .12em 0 0;color:var(--fg);font-family:var(--sans);font-weight:800;font-stretch:66%;font-size:5.35em;line-height:.74}
+@supports (initial-letter:3) or (-webkit-initial-letter:3){
+  .lede::first-letter{float:none;margin:0 .14em 0 0;font-size:inherit;line-height:inherit;-webkit-initial-letter:3;initial-letter:3}
+}
+.prose h2{margin:2.25em 0 .75em;color:var(--fg);font-family:var(--sans);font-size:38px;font-stretch:68%;line-height:1}
+.prose h2 .n{display:block;margin-bottom:12px;color:var(--rojo);font-size:15px;font-weight:800;font-stretch:84%;font-variant-numeric:tabular-nums;letter-spacing:.04em}
+/* Datos al margen */
+.note{margin:1.4em 0 1.6em;padding-top:14px;border-top:3px solid var(--fg);font-family:var(--sans)}
+.note b{display:block;color:var(--fg);font-weight:900;font-stretch:62%;font-size:54px;line-height:.86;font-variant-numeric:tabular-nums}
+.note span{display:block;margin-top:10px;color:var(--fg-2);font-size:15px;line-height:1.4}
+.note-date b{font-size:42px}
+/* Cita destacada */
+.pull{clear:both;margin:1.5em 0 1.4em;padding-top:22px;border-top:3px solid var(--fg)}
+.pull p{margin:0;color:var(--fg);font-family:var(--sans);font-weight:800;font-stretch:68%;font-size:42px;line-height:1.02;text-wrap:balance}
+.endmark{display:inline-block;width:.55em;height:.55em;margin-left:.35em;background:linear-gradient(90deg,var(--sa) 50%,var(--eu) 50%);vertical-align:.02em}
+@media (min-width:1000px){
+  .note{float:right;clear:right;width:200px;margin:.35em -256px 1em 0}
+  .pull{margin-right:-256px}
+}
+@media (min-width:1280px){
+  .note{width:220px;margin-right:-276px}
+  .pull{margin-right:-276px}
+}
+/* Firma al final */
+.a-end{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:18px 24px;margin-top:40px;padding-top:24px;border-top:1px solid var(--line);font-family:var(--sans)}
+
+/* Índice lateral */
+.rail{display:none}
+.rail-lab{margin-bottom:10px;color:var(--fg-3);font-size:13px;font-weight:600}
+.toc{margin:0;padding:0;list-style:none}
+.toc a{display:grid;grid-template-columns:24px minmax(0,1fr);gap:4px;padding:8px 0 8px 12px;border-left:2px solid var(--line);color:var(--fg-3);font-size:14px;font-weight:600;line-height:1.3;text-decoration:none;transition:color .2s,border-color .2s}
+.toc a span:first-child{font-variant-numeric:tabular-nums}
+.toc a:hover{color:var(--fg)}
+.toc a[aria-current]{color:var(--fg);border-left-color:var(--rojo)}
+.rail-left{margin-top:18px;padding-left:14px;color:var(--fg-3);font-size:14px;font-variant-numeric:tabular-nums}
+@media (min-width:1280px){
+  .rail{display:block;grid-column:1;grid-row:1;position:sticky;top:calc(var(--top-h) + 44px);padding-top:4px}
+}
+
+/* ---------- Sigue la historia ---------- */
+.next{padding:96px 0 104px}
+.next h2{margin-bottom:28px;font-size:clamp(46px,5vw,72px);line-height:.88}
+.next-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:24px}
+.ncard{position:relative;display:flex;flex-direction:column;min-height:460px;padding:24px 24px 22px;border-radius:4px;background:var(--pizarra);text-decoration:none;transition:transform .2s ease,box-shadow .2s ease}
+.ncard:hover{transform:translateY(-3px);box-shadow:0 20px 40px -24px rgba(0,0,0,.65)}
+.nk{color:var(--fg-3);font-size:14px}
+.nt{display:block;margin-top:6px;font-weight:800;font-stretch:62%;font-size:46px;line-height:.92}
+.ncard p{max-width:34em;margin-top:auto;color:var(--fg-2);font-size:16px;line-height:1.45}
+.go{display:inline-flex;align-items:center;gap:10px;margin-top:18px;font-weight:700;font-size:16px}
+.go .ico{transition:transform .2s ease}
+.ncard:hover .go .ico{transform:translateX(4px)}
+.mini{position:relative;height:170px;margin:22px 0 20px}
+.mini svg{display:block;width:100%;height:100%;overflow:visible}
+.m-zero{stroke:rgba(241,244,238,.4);stroke-width:1}
+.m-line{fill:none;stroke-width:2.5;stroke-linejoin:round;stroke-dasharray:var(--len,0);stroke-dashoffset:var(--len,0);transition:stroke-dashoffset 1.7s cubic-bezier(.3,.6,.2,1)}
+.m-area{opacity:0;transition:opacity .6s ease 1s}
+.mini.on .m-line{stroke-dashoffset:0}
+.mini.on .m-area{opacity:1}
+.m-bosman{stroke:var(--tiza);stroke-width:1.4}
+.m-bos{font:700 12px var(--sans);fill:var(--tiza)}
+.m-region{font:700 12px var(--sans)}
+.m-val{font:800 16px var(--sans);font-stretch:80%}
+.m-tick{font:500 12px var(--sans);fill:rgba(241,244,238,.5);font-variant-numeric:tabular-nums}
+/* Orillas, en miniatura */
+.o-mini{display:grid;gap:10px;margin:22px 0 20px}
+.o-card{display:flex;flex-direction:column;justify-content:space-between;height:156px;padding:14px 16px 12px;border:1px solid rgba(241,244,238,.24);border-radius:6px;background:#101413}
+.o-card span{color:var(--fg-2);font-size:13px}
+.o-card b{font-weight:900;font-stretch:62%;font-size:74px;line-height:.8;font-variant-numeric:tabular-nums}
+.o-card i{color:var(--fg-2);font:italic 400 16px/1.2 var(--serif)}
+.o-picks{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.o-picks span{display:flex;align-items:center;justify-content:center;min-height:42px;border:1.5px solid;border-radius:3px;font-weight:800;font-stretch:80%;font-size:17px}
+.o-sa{color:var(--sa);border-color:rgba(52,221,98,.55)}
+.o-eu{color:var(--eu);border-color:rgba(74,168,255,.55)}
+.back{display:inline-flex;align-items:center;gap:10px;margin-top:32px;color:var(--fg-2);font-weight:600;text-decoration:none}
+.back:hover{color:var(--fg);text-decoration:underline;text-underline-offset:4px}
+
+/* ---------- Pie ---------- */
+.foot{padding:40px 0 48px;border-top:1px solid var(--line);color:var(--fg-3);font-size:15px}
+.foot .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:20px 44px}
+.brand-s{height:58px}
+.brand-s .wordmark{font-size:26px}
+.foot ul{display:flex;flex-wrap:wrap;gap:8px 24px;margin:0;padding:0;list-style:none}
+.foot ul a{color:var(--fg-2);font-weight:600;text-decoration:none}
+.foot ul a:hover{color:var(--fg);text-decoration:underline}
+.legal{margin-left:auto}
+
+.toast{position:fixed;left:50%;bottom:calc(24px + var(--bar-h));z-index:60;max-width:calc(100% - 32px);padding:12px 16px;border-radius:3px;background:#000;color:#fff;font-weight:600;font-size:15px;box-shadow:0 0 0 1px rgba(255,255,255,.16),0 12px 30px rgba(0,0,0,.22);opacity:0;pointer-events:none;transform:translate(-50%,16px);transition:opacity .2s,transform .2s}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.fbar{display:none}
+
+/* ---------- Adaptación ---------- */
+@media (max-width:900px){
+  .nav{display:none}
+}
+@media (max-width:760px){
+  :root{--gut:18px;--top-h:62px;--bar-h:calc(64px + env(safe-area-inset-bottom,0px))}
+  body{font-size:16px}
+  .top-in{gap:14px}
+  .top-actions .fswitch{display:none}
+  .brand{height:48px}
+  .wordmark{font-size:25px}
+  .top-actions .btn{min-height:40px;padding:0 14px;font-size:15px}
+  .a-hero-in{min-height:0;padding-top:calc(var(--top-h) + env(safe-area-inset-top,0px) + 132px);padding-bottom:40px}
+  .kicker{gap:6px 16px;margin-bottom:16px;font-size:14px}
+  .a-hero h1{font-size:clamp(40px,11.4vw,56px)}
+  .a-dek{margin-top:16px;font-size:20px}
+  .a-hero .a-by{margin-top:22px}
+  .read{padding-top:48px}
+  .prose{font-size:19px;line-height:1.6}
+  .prose h2{font-size:32px}
+  .note b{font-size:46px}
+  .note-date b{font-size:40px}
+  .note span{margin-top:8px}
+  .pull p{font-size:32px}
+  .next{padding:64px 0 72px}
+  .next-grid{grid-template-columns:1fr;gap:18px}
+  .ncard{min-height:0;padding:20px 18px 18px}
+  .nt{font-size:40px}
+  .mini{height:140px}
+  .ncard p{margin-top:0}
+  .legal{margin-left:0}
+  .fbar{position:fixed;inset:auto 0 0 0;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:14px;height:var(--bar-h);padding:0 var(--gut) env(safe-area-inset-bottom,0px);border-top:1px solid var(--line);background:rgba(5,6,6,.94);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);transition:background-color .3s ease}
+  .fbar.light{background:#fff}
+  .fbar .fswitch{flex:1;max-width:330px}
+  .fbar .fswitch>*{flex:1}
+  .fbar-left{color:var(--fg-3);font:600 13px/1 var(--sans);font-variant-numeric:tabular-nums;white-space:nowrap;transition:color .3s}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0s!important}
+  .a-hero{position:relative;top:auto}
+  .hero-dim{display:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#texto">Saltar al artículo</a>
+
+<header class="top" id="top">
+  <div class="top-in">
+    <a class="brand" href="../man_on_experiencia.html" aria-label="Kiricocho, volver a la portada">
+      <img class="logo logo-claro" src="../kiricocho-svg/05-sello/logo-claro.svg" alt="" onerror="this.parentNode.classList.add('no-logo')">
+      <img class="logo logo-negro" src="../kiricocho-svg/05-sello/logo-negro.svg" alt="" onerror="this.parentNode.classList.add('no-logo')">
+      <span class="wordmark" aria-hidden="true">Kiricocho</span>
+    </a>
+    <nav class="nav" aria-label="Secciones">
+      <a href="../man_on_experiencia.html#historias">Historias</a>
+      <a href="../man_on_experiencia.html#juegos">Juegos</a>
+    </nav>
+    <div class="top-actions">
+      <nav class="fswitch" aria-label="Formato de esta historia">
+        <span aria-current="page"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6.5h14M5 11h14M5 15.5h14M5 20h8"/></svg>Artículo</span>
+        <a href="index.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path class="i-sa" d="M3 14h4v-4h3V6h2"/><path class="i-eu" d="M12 6v5h3v4h3v4h3"/></svg>Visualización</a>
+      </nav>
+      <a class="btn btn-red" href="../man_on_experiencia.html#boletin">Suscríbete</a>
+    </div>
+  </div>
+  <div class="progress" aria-hidden="true"><i></i></div>
+</header>
+
+<main id="main">
+  <article aria-labelledby="a-title">
+    <header class="a-hero" id="portada">
+      <div class="a-hero-in">
+        <div class="a-head">
+          <p class="kicker"><span class="j-badge">Jornada 8</span><a href="../man_on_experiencia.html#jornada">La sentencia que cruzó el Atlántico</a></p>
+          <h1 id="a-title">De tres extranjeros a un fútbol sin fronteras: <span class="h-tail">la revolución de la Ley Bosman</span></h1>
+          <p class="a-dek">La sentencia de 1995 transformó el mercado de fichajes europeo, derribó barreras para los futbolistas comunitarios y cambió para siempre la composición de las plantillas del fútbol español.</p>
+          <div class="a-by">
+            <span class="avatar" aria-hidden="true">GM</span>
+            <p><span class="by-name">Guillermo J. Moreno</span><span class="by-meta"><time datetime="2026-10-26">26 de octubre de 2026</time> · 6 min de lectura</span></p>
+          </div>
+        </div>
+      </div>
+      <div class="hero-dim" aria-hidden="true"></div>
+    </header>
+
+    <div class="sheet" id="papel">
+      <div class="read">
+        <aside class="rail" aria-label="Índice del artículo">
+          <p class="rail-lab">En este artículo</p>
+          <ol class="toc">
+            <li><a href="#caso"><span>01</span><span>El caso que abrió las fronteras del fútbol</span></a></li>
+            <li><a href="#espana"><span>02</span><span>España: del límite de tres extranjeros a las plantillas internacionales</span></a></li>
+            <li><a href="#fichajes"><span>03</span><span>El nacimiento de una nueva política de fichajes</span></a></li>
+            <li><a href="#desigualdades"><span>04</span><span>Más oportunidades, pero también nuevas desigualdades</span></a></li>
+            <li><a href="#presente"><span>05</span><span>Un antes y un después que sigue presente</span></a></li>
+          </ol>
+          <p class="rail-left" data-left="long">Te quedan 6 min</p>
+        </aside>
+
+        <div class="text" id="texto" data-minutes="6">
+          <div class="prose">
+            <p class="lede">Hubo un tiempo en el que los clubes españoles tenían que mirar el pasaporte antes de mirar el talento. En una época en la que las plantillas estaban formadas mayoritariamente por jugadores nacionales, incorporar a una estrella extranjera era una decisión estratégica que debía ajustarse a unas normas restrictivas. En España, el límite tradicional de tres futbolistas extranjeros condicionaba la planificación deportiva y convertía cada plaza disponible en un recurso de enorme valor. Sin embargo, en diciembre de 1995, una sentencia judicial cambió las reglas del juego. Su nombre quedó ligado para siempre al de un futbolista belga: Jean-Marc Bosman.</p>
+
+            <section id="caso" aria-labelledby="h-caso">
+              <h2 id="h-caso"><span class="n" aria-hidden="true">01</span>El caso que abrió las fronteras del fútbol</h2>
+              <p>La historia comenzó con un conflicto contractual. Bosman, centrocampista belga, quiso abandonar el RFC Liège para continuar su carrera en otro club europeo cuando su contrato había terminado. Las trabas que encontró para hacerlo lo llevaron a acudir a los tribunales, iniciando una batalla jurídica que acabaría teniendo consecuencias mucho mayores que su propio futuro profesional.</p>
+              <aside class="note note-date" aria-hidden="true"><b>15 dic 1995</b><span>El Tribunal de Justicia de las Comunidades Europeas dicta la sentencia del caso Bosman.</span></aside>
+              <p>El 15 de diciembre de 1995, el Tribunal de Justicia de las Comunidades Europeas dictó una sentencia histórica. La resolución estableció que los clubes no podían exigir determinadas compensaciones por el traspaso de jugadores comunitarios una vez finalizado su contrato y que las restricciones que limitaban la presencia de futbolistas de otros Estados miembros eran incompatibles con la libre circulación de trabajadores.</p>
+              <p>El fútbol europeo acababa de descubrir una nueva realidad: dentro del marco comunitario, la nacionalidad de un jugador ya no podía utilizarse de la misma manera para cerrar las puertas de una plantilla.</p>
+              <p>La conocida como Ley Bosman no fue una ley aprobada por un Parlamento, sino una sentencia judicial que obligó a modificar las reglas del mercado futbolístico. Su alcance fue inmediato y profundo. Los jugadores comunitarios ganaron libertad para cambiar de club y los equipos comenzaron a competir en un mercado de talento mucho más amplio.</p>
+            </section>
+
+            <section id="espana" aria-labelledby="h-espana">
+              <h2 id="h-espana"><span class="n" aria-hidden="true">02</span>España: del límite de tres extranjeros a las plantillas internacionales</h2>
+              <aside class="note" aria-hidden="true"><b>3</b><span>futbolistas extranjeros: el límite tradicional en los clubes españoles antes de la sentencia.</span></aside>
+              <p>Antes de Bosman, la contratación de jugadores extranjeros estaba sometida a restricciones que obligaban a los clubes españoles a seleccionar cuidadosamente sus incorporaciones. El límite tradicional de tres extranjeros hacía que cada fichaje internacional tuviera un peso especial en la planificación de la temporada.</p>
+              <p>La sentencia alteró este escenario al eliminar las restricciones por nacionalidad para los futbolistas cubiertos por el derecho comunitario. Un jugador francés, italiano, alemán o neerlandés podía ocupar una plaza en un equipo español sin ser considerado extranjero a efectos de aquella limitación comunitaria. Esto no significaba que desaparecieran todas las restricciones para cualquier futbolista procedente de cualquier país: los jugadores extracomunitarios continuaron sujetos a normas específicas.</p>
+              <p>La diferencia, sin embargo, fue enorme. Los clubes ya no tenían que reservar sus plazas limitadas para unas pocas estrellas extranjeras. Podían construir equipos con varios futbolistas procedentes de otros países europeos y combinar sus incorporaciones con jugadores de otros mercados, dentro de los límites reglamentarios vigentes.</p>
+              <p>El cambio fue modificando progresivamente el paisaje de la Liga. Los vestuarios comenzaron a reunir distintas nacionalidades, idiomas y culturas futbolísticas. El talento dejó de buscarse únicamente dentro de las fronteras nacionales y pasó a rastrearse por toda Europa.</p>
+            </section>
+
+            <section id="fichajes" aria-labelledby="h-fichajes">
+              <h2 id="h-fichajes"><span class="n" aria-hidden="true">03</span>El nacimiento de una nueva política de fichajes</h2>
+              <p>La Ley Bosman coincidió con una transformación económica del fútbol. Los ingresos televisivos crecieron, los grandes clubes ampliaron sus mercados comerciales y las competiciones europeas adquirieron una dimensión cada vez más internacional. En ese contexto, la libertad de contratación facilitó que los equipos buscaran refuerzos más allá de sus fronteras y que las grandes estrellas pudieran cambiar de club al terminar sus contratos sin que el nuevo equipo tuviera que pagar un traspaso por ellas, en las condiciones contempladas por la sentencia.</p>
+              <p>Los fichajes dejaron de responder exclusivamente a las necesidades deportivas. También comenzaron a reflejar estrategias financieras, oportunidades de mercado y proyectos de expansión internacional. Para los clubes con mayor capacidad económica, la posibilidad de reunir a futbolistas de distintos países amplió considerablemente el abanico de opciones.</p>
+              <figure class="pull" aria-hidden="true"><p>La sentencia abrió una puerta jurídica; la transformación económica del fútbol contribuyó a ensancharla.</p></figure>
+              <p>La Liga española fue uno de los escenarios de esta evolución. El Real Madrid, el Barcelona, el Valencia y otros equipos incorporaron futbolistas de diferentes nacionalidades que contribuyeron a cambiar la imagen de sus plantillas. A las figuras europeas se sumaron jugadores sudamericanos y de otros continentes, cuya llegada dependía de las normas de contratación aplicables a cada nacionalidad.</p>
+              <p>El resultado fue un fútbol cada vez más globalizado, en el que un vestuario podía reunir a internacionales de varios países y en el que la procedencia de un jugador tenía menos peso que su rendimiento, su precio y su encaje en el proyecto deportivo.</p>
+            </section>
+
+            <section id="desigualdades" aria-labelledby="h-desigualdades">
+              <h2 id="h-desigualdades"><span class="n" aria-hidden="true">04</span>Más oportunidades, pero también nuevas desigualdades</h2>
+              <p>La transformación tuvo consecuencias positivas para los futbolistas. La libre circulación amplió sus posibilidades laborales, aumentó la competencia entre clubes por sus servicios y reforzó su capacidad para negociar contratos. Los jugadores comunitarios dejaron de estar sometidos a determinadas barreras que antes limitaban sus opciones de empleo.</p>
+              <p>Pero la apertura también alimentó un debate que continúa vigente. La posibilidad de contratar más talento internacional favoreció especialmente a los equipos con mayores recursos económicos, capaces de atraer a jugadores de primer nivel procedentes de numerosos mercados.</p>
+              <p>Al mismo tiempo, surgieron preguntas sobre el espacio reservado a los futbolistas nacionales y las oportunidades para los jóvenes de las canteras. Cuando un club puede buscar refuerzos en un mercado internacional mucho más amplio, la competencia por alcanzar el primer equipo puede intensificarse.</p>
+              <p>No obstante, sería simplista atribuir todos estos cambios exclusivamente a Bosman. El crecimiento de la televisión, la expansión comercial de las competiciones, la inversión internacional y la evolución de los agentes y los contratos también fueron determinantes. La sentencia abrió una puerta jurídica; la transformación económica del fútbol contribuyó a ensancharla.</p>
+            </section>
+
+            <section id="presente" aria-labelledby="h-presente">
+              <h2 id="h-presente"><span class="n" aria-hidden="true">05</span>Un antes y un después que sigue presente</h2>
+              <p>Treinta años después de la sentencia, resulta difícil imaginar el fútbol europeo sin plantillas internacionales. La presencia de múltiples nacionalidades en un mismo equipo es habitual y la contratación de futbolistas extranjeros forma parte de la planificación ordinaria de los clubes.</p>
+              <p>Conviene recordar, además, que Bosman no eliminó todas las limitaciones de nacionalidad para todos los jugadores del mundo. Su alcance se centró en la libre circulación de los trabajadores comunitarios y en determinadas reglas de traspasos al finalizar los contratos. Los futbolistas extracomunitarios continuaron sujetos a otros requisitos y las competiciones mantuvieron sus propias normas de inscripción y participación.</p>
+              <p>Sin embargo, el cambio histórico es indiscutible: el mercado europeo del fútbol dejó de funcionar bajo las mismas barreras que habían condicionado durante décadas la composición de las plantillas.</p>
+              <p>La evolución desde aquel modelo en el que tres plazas para extranjeros podían condicionar toda una planificación deportiva hasta los vestuarios multiculturales actuales resume una de las mayores transformaciones del fútbol moderno. La Ley Bosman no inventó el fichaje internacional, pero cambió las reglas que lo limitaban y aceleró la internacionalización de las plantillas.</p>
+              <p>Jean-Marc Bosman no terminó convirtiéndose en una de las grandes estrellas del deporte. Su nombre, sin embargo, quedó inscrito en la historia por una razón diferente: una batalla personal que modificó el futuro profesional de miles de futbolistas y transformó la manera en que los clubes construyen sus equipos.</p>
+              <p>El fútbol dejó de tener las mismas fronteras. Y, desde aquel 15 de diciembre de 1995, fichar talento europeo ya nunca volvió a ser lo mismo.<span class="endmark" aria-hidden="true"></span></p>
+            </section>
+          </div>
+
+          <footer class="a-end">
+            <div class="a-by">
+              <span class="avatar" aria-hidden="true">GM</span>
+              <p><span class="by-name">Guillermo J. Moreno</span><span class="by-meta">Publicado el <time datetime="2026-10-26">26 de octubre de 2026</time></span></p>
+            </div>
+            <button class="btn btn-line" type="button" data-copy-link><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3.2-3.2a4.5 4.5 0 0 0-6.4-6.4l-1 1"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3.2 3.2a4.5 4.5 0 0 0 6.4 6.4l1-1"/></svg>Copiar enlace</button>
+          </footer>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <section class="next sheet" aria-labelledby="h-next">
+    <div class="wrap">
+      <h2 id="h-next">Sigue la historia</h2>
+      <div class="next-grid">
+        <a class="ncard" href="index.html">
+          <span class="nk">Visualización interactiva</span>
+          <b class="nt">La sentencia que cruzó el Atlántico</b>
+          <div class="mini" aria-hidden="true"><svg></svg></div>
+          <p>87 títulos mundiales entre clubes y selecciones, de 1930 a 2026. Sudamérica llegó a la sentencia con siete de ventaja; treinta años después, Europa le saca diecisiete.</p>
+          <span class="go">Explorar los datos<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
+        </a>
+        <a class="ncard" href="../man_on_experiencia.html#orillas">
+          <span class="nk">Juego diario</span>
+          <b class="nt">Orillas</b>
+          <div class="o-mini" aria-hidden="true">
+            <div class="o-card"><span>Copa Intercontinental</span><b>1995</b><i>¿Campeón sudamericano o europeo?</i></div>
+            <div class="o-picks"><span class="o-sa">Sudamérica</span><span class="o-eu">Europa</span></div>
+          </div>
+          <p>Te damos un título mundial y su año. Tú dices de qué orilla del Atlántico era el campeón.</p>
+          <span class="go">Jugar<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
+        </a>
+      </div>
+      <a class="back" href="../man_on_experiencia.html#historias"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H6M11 6l-6 6 6 6"/></svg>Volver a las historias de la jornada</a>
+    </div>
+  </section>
+</main>
+
+<footer class="foot sheet">
+  <div class="wrap">
+    <a class="brand brand-s" href="../man_on_experiencia.html" aria-label="Kiricocho, volver a la portada"><img class="logo" src="../kiricocho-svg/05-sello/logo-negro.svg" alt="" onerror="this.parentNode.classList.add('no-logo')"><span class="wordmark" aria-hidden="true">Kiricocho</span></a>
+    <ul>
+      <li><a href="#">Quiénes somos</a></li>
+      <li><a href="#">Contacto</a></li>
+      <li><a href="#">Publicidad</a></li>
+      <li><a href="#">Privacidad</a></li>
+    </ul>
+    <span class="legal">© 2026 Kiricocho</span>
+  </div>
+</footer>
+
+<nav class="fbar" aria-label="Formato de esta historia">
+  <div class="fswitch">
+    <span aria-current="page"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6.5h14M5 11h14M5 15.5h14M5 20h8"/></svg>Artículo</span>
+    <a href="index.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path class="i-sa" d="M3 14h4v-4h3V6h2"/><path class="i-eu" d="M12 6v5h3v4h3v4h3"/></svg>Visualización</a>
+  </div>
+  <span class="fbar-left" data-left="short">6 min</span>
+</nav>
+
+<p class="toast" id="toast" role="status" aria-live="polite"></p>
+
+<script>
+(() => {
+"use strict";
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const NS = "http://www.w3.org/2000/svg";
+const el = (tag, attrs = {}, parent) => {
+  const n = document.createElementNS(NS, tag);
+  for (const k in attrs) n.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(n);
+  return n;
+};
+const label = (parent, s, attrs) => { const t = el("text", attrs, parent); t.textContent = s; return t; };
+
+const top = $("#top"), hero = $("#portada"), dim = $(".hero-dim"), paper = $("#papel"), bar = $(".fbar");
+const text = $("#texto"), prose = $(".prose", text), prog = $(".progress i"), lefts = $$("[data-left]");
+const MINUTES = +text.dataset.minutes || 6;
+const toc = $$(".toc a"), secs = toc.map(a => document.getElementById(a.getAttribute("href").slice(1)));
+
+/* Leer el artículo hasta el final lo apunta en tu ficha (la misma que en la portada) */
+const KEY = "kiricocho:ficha:v1";
+let marked = false;
+function markRead() {
+  if (marked) return;
+  marked = true;
+  try {
+    const d = JSON.parse(localStorage.getItem(KEY)) || {}, read = new Set(d.read || []);
+    if (!read.has(8)) { read.add(8); d.read = [...read]; localStorage.setItem(KEY, JSON.stringify(d)); }
+  } catch (e) { /* sin almacenamiento */ }
+}
+
+/* Portada → papel, progreso de lectura e índice */
+const barH = () => (getComputedStyle(bar).display === "none" ? 0 : bar.offsetHeight);
+// La portada se fija cuando su borde inferior toca el fondo de la pantalla (o la barra)
+const stick = () => hero.style.setProperty("--stick", `${Math.min(0, innerHeight - barH() - hero.offsetHeight)}px`);
+let raf = 0, current = -2, shown = "";
+function update() {
+  raf = 0;
+  const vh = innerHeight, th = top.offsetHeight, bh = barH(), pt = paper.getBoundingClientRect().top;
+  top.classList.toggle("solid", scrollY > 24);
+  top.classList.toggle("light", pt <= th);
+  bar.classList.toggle("light", pt <= vh - bh);
+  dim.style.opacity = REDUCED ? "0" : (clamp(1 - pt / vh, 0, 1) * .6).toFixed(3);
+  const r = prose.getBoundingClientRect(), span = r.height - (vh - th - bh);
+  const p = span > 0 ? clamp((th - r.top) / span, 0, 1) : (r.bottom <= vh - bh ? 1 : 0);
+  prog.style.transform = `scaleX(${p.toFixed(4)})`;
+  const done = p >= .995, n = Math.max(1, Math.ceil(MINUTES * (1 - p)));
+  const key = done ? "done" : String(n);
+  if (key !== shown) {
+    shown = key;
+    lefts.forEach(e => {
+      e.textContent = e.dataset.left === "long"
+        ? (done ? "Artículo leído" : `Te queda${n === 1 ? "" : "n"} ${n} min`)
+        : (done ? "Leído" : `${n} min`);
+    });
+  }
+  if (done) markRead();
+  let k = -1;
+  secs.forEach((s, i) => { if (s && s.getBoundingClientRect().top <= th + vh * .35) k = i; });
+  if (k !== current) {
+    current = k;
+    toc.forEach((a, i) => { if (i === k) a.setAttribute("aria-current", "location"); else a.removeAttribute("aria-current"); });
+  }
+}
+const queue = () => { if (!raf) raf = requestAnimationFrame(update); };
+addEventListener("scroll", queue, {passive: true});
+
+/* La visualización, en miniatura: el saldo de títulos mundiales año a año */
+const SA = "#34DD62", EU = "#4AA8FF";
+// [año, saldo tras ese año]. Positivo: Sudamérica por delante
+const BAL = [[1930,1],[1934,0],[1938,-1],[1950,0],[1954,-1],[1958,0],[1960,-1],[1961,0],[1962,2],[1963,3],[1964,2],[1965,1],[1966,1],[1967,2],[1968,3],[1969,2],[1970,2],[1971,3],[1972,2],[1973,3],[1974,1],[1976,0],[1977,1],[1978,2],[1979,3],[1980,4],[1981,5],[1982,5],[1983,6],[1984,7],[1985,6],[1986,8],[1987,7],[1988,8],[1989,7],[1990,5],[1991,4],[1992,5],[1993,6],[1994,8],[1995,7],[1996,6],[1997,5],[1998,3],[1999,2],[2000,3],[2001,2],[2002,2],[2003,3],[2004,2],[2005,3],[2006,3],[2007,2],[2008,1],[2009,0],[2010,-2],[2011,-3],[2012,-2],[2013,-3],[2014,-5],[2015,-6],[2016,-7],[2017,-8],[2018,-10],[2019,-11],[2020,-12],[2021,-13],[2022,-13],[2023,-14],[2024,-15],[2025,-16],[2026,-17]];
+const mini = $(".mini");
+function drawMini() {
+  if (!mini || !BAL.length) return;
+  const svg = $("svg", mini), W = Math.round(mini.clientWidth), H = Math.round(mini.clientHeight);
+  if (!W || !H || mini.dataset.size === `${W}x${H}`) return;
+  mini.dataset.size = `${W}x${H}`;
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  svg.textContent = "";
+  const START = 1930, END = 2026.9, VMAX = 10, VMIN = -19, m = {l: 2, r: 40, t: 26, b: 22};
+  const x = yr => m.l + (yr - START) / (END - START) * (W - m.l - m.r);
+  const y = v => m.t + (VMAX - v) / (VMAX - VMIN) * (H - m.t - m.b);
+  const z = y(0), defs = el("defs", {}, svg);
+  el("rect", {x: 0, y: -20, width: W, height: z + 20}, el("clipPath", {id: "mUp"}, defs));
+  el("rect", {x: 0, y: z, width: W, height: H}, el("clipPath", {id: "mDn"}, defs));
+  el("line", {x1: m.l, x2: W - m.r, y1: z, y2: z, class: "m-zero"}, svg);
+  let d = `M${x(START).toFixed(1)} ${z.toFixed(1)}`;
+  BAL.forEach(([yr, b]) => { d += ` H${x(yr).toFixed(1)} V${y(b).toFixed(1)}`; });
+  d += ` H${x(END).toFixed(1)}`;
+  [["mUp", SA, "rgba(52,221,98,.18)"], ["mDn", EU, "rgba(74,168,255,.2)"]].forEach(([id, stroke, fill]) => {
+    const g = el("g", {"clip-path": `url(#${id})`}, svg);
+    el("path", {d: `${d} V${z.toFixed(1)} Z`, fill, class: "m-area"}, g);
+    el("path", {d, stroke, class: "m-line"}, g);
+  });
+  label(svg, "Sudamérica por delante", {x: m.l, y: 14, class: "m-region", fill: SA});
+  label(svg, "Europa por delante", {x: m.l, y: y(-15), class: "m-region", fill: EU});
+  const bx = x(1995.96);
+  el("line", {x1: bx, x2: bx, y1: 4, y2: H - m.b, class: "m-bosman"}, svg);
+  label(svg, "Sentencia Bosman", {x: bx + 8, y: 14, class: "m-bos"});
+  el("circle", {cx: bx, cy: y(7), r: 4.5, fill: SA, stroke: "#050606", "stroke-width": 2}, svg);
+  label(svg, "+7", {x: bx - 9, y: y(7) - 12, "text-anchor": "end", class: "m-val", fill: SA});
+  el("circle", {cx: x(END), cy: y(-17), r: 4.5, fill: EU, stroke: "#050606", "stroke-width": 2}, svg);
+  label(svg, "+17", {x: x(END) + 9, y: y(-17) + 5, class: "m-val", fill: EU});
+  label(svg, "1930", {x: m.l, y: H - 4, class: "m-tick"});
+  label(svg, "2026", {x: x(END), y: H - 4, "text-anchor": "end", class: "m-tick"});
+  $$(".m-line", svg).forEach(p => p.style.setProperty("--len", p.getTotalLength().toFixed(1)));
+}
+if (mini) {
+  drawMini();
+  if (REDUCED || !("IntersectionObserver" in window)) mini.classList.add("on");
+  else {
+    const io = new IntersectionObserver(es => {
+      if (es.some(e => e.isIntersecting)) { mini.classList.add("on"); io.disconnect(); }
+    }, {threshold: .5});
+    io.observe(mini);
+  }
+}
+
+let rt = 0;
+addEventListener("resize", () => {
+  stick(); queue();
+  clearTimeout(rt); rt = setTimeout(drawMini, 120);
+});
+if ("ResizeObserver" in window) new ResizeObserver(() => { stick(); queue(); }).observe(hero);
+stick(); update();
+
+/* Copiar el enlace */
+const toastEl = $("#toast");
+let toastT = 0;
+const toast = msg => { toastEl.textContent = msg; toastEl.classList.add("on"); clearTimeout(toastT); toastT = setTimeout(() => toastEl.classList.remove("on"), 2600); };
+async function copyText(s) {
+  try { await navigator.clipboard.writeText(s); return true; } catch (e) {
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = s; ta.setAttribute("readonly", ""); ta.style.cssText = "position:fixed;top:0;left:0;opacity:0";
+      document.body.appendChild(ta); ta.select();
+      const ok = document.execCommand("copy"); ta.remove(); return ok;
+    } catch (e2) { return false; }
+  }
+}
+$("[data-copy-link]").addEventListener("click", async () => {
+  toast(await copyText(location.href.split("#")[0]) ? "Enlace copiado." : "No se ha podido copiar. Copia la dirección desde el navegador.");
+});
+
+$$('a[href="#"]').forEach(a => a.addEventListener("click", e => e.preventDefault()));
+})();
+</script>
+</body>
+</html>
